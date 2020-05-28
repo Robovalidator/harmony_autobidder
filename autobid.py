@@ -20,17 +20,17 @@ def main(main_args):
 
     interval = config.POLL_INTERVAL_SECONDS
     i = 0
-    prev_slot_range = None
+    prev_response_json = None
 
     if main_args.once:
         run_loop(main_args)
     else:
         while 1:
             if main_args.raise_errors:
-                prev_slot_range = run_loop(main_args, prev_slot_range)
+                prev_response_json = run_loop(main_args, prev_response_json=prev_response_json)
             else:
                 try:
-                    prev_slot_range = run_loop(main_args, prev_slot_range)
+                    prev_response_json = run_loop(main_args, prev_response_json=prev_response_json)
                 except Exception:
                     ex_type, ex, ex_tb = sys.exc_info()
                     tb = traceback.format_tb(ex_tb, 100)
@@ -46,9 +46,9 @@ def main(main_args):
         print(u"</html></body>")
 
 
-def run_loop(main_args, prev_slot_range=None):
+def run_loop(main_args, prev_response_json=None):
     response_json = bidding_logic.get_validators_and_bid_if_necessary()
-    if prev_slot_range != response_json["slots"]:
+    if prev_response_json != response_json:
         if main_args.json:
             print(response_json)
         elif main_args.html:
@@ -56,7 +56,7 @@ def run_loop(main_args, prev_slot_range=None):
         else:
             print(u"\n")
             print(output_logic.get_response_as_text(response_json))
-    return response_json["slots"]
+    return response_json
 
 
 def usage():

@@ -49,7 +49,9 @@ def main(main_args):
 def run_loop(main_args, prev_response_json=None):
     bidding_enabled = not main_args.disable_bidding
     response_json = bidding_logic.get_validators_and_bid_if_necessary(bidding_enabled=bidding_enabled)
-    if prev_response_json != response_json:
+
+    if (prev_response_json is None or prev_response_json["slots"] != response_json["slots"]
+            or response_json.get("action") or response_json.get("new_slots")):
         if main_args.json:
             print(response_json)
         elif main_args.html:

@@ -2,8 +2,8 @@ import os
 
 HOME = os.environ.get('HOME') or "."
 NODE_API_URL = "https://api.s0.t.hmny.io"
-# Set to True to query your own Node (Shard 0 is required)
-USE_REMOTE_NODE = False
+# Set to False to query your own Node (Shard 0 is required)
+USE_REMOTE_NODE = True
 
 # Put your own validator address below
 VALIDATOR_ADDR = "one1x8fhymx4xsygy4dju9ea9vhs3vqg0u3ht0nz74"

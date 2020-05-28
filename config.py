@@ -53,7 +53,7 @@ MAX_VALIDATORS_PAGES = 50
 VALIDATOR_MIN_BID = 200000
 
 # Number of seconds to wait before polling for validator information to make a decision
-POLL_INTERVAL_SECONDS = 5
+POLL_INTERVAL_SECONDS = 10
 
 # Path to base web page html contents
 BASE_HTML_PATH = "{}/harmony/robovalidator.html".format(HOME)

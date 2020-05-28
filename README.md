@@ -69,7 +69,7 @@ If we lower the bid by adding key the slots will be: 366-368
 If we increase the bid by removing a key the slots will be: 28
 ....
 ```
-The bot will poll for validator information every five seconds and output the state again if anything changes.
+The bot will poll for validator information every several seconds and output the state again if anything changes.
 
 ## Script options
 ```

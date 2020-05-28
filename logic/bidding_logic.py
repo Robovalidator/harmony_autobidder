@@ -10,7 +10,6 @@ def get_validators_and_bid_if_necessary():
     response_json = dict(
         action=None,
         slots=str(my_slot_range),
-        uptime=str(my_validator.uptime_as_pct),
         validator=my_validator.to_dict(),
         validators=[v.to_dict() for v in validators]
     )

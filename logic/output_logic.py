@@ -3,9 +3,10 @@ from models import Validator, SlotRange
 
 
 def get_response_as_html(response_json):
+    validator = Validator.from_dict(response_json["validator"])
     html = u"".join((
         u"<p>Current slots: {}</p>\n".format(response_json["slots"]),
-        u"<p>Current epoch uptime: {}</p>\n".format(response_json["uptime"]),
+        u"<p>Current epoch uptime: {}</p>\n".format(validator.uptime_as_pct),
         u"<p>If we lower the bid by adding key the slots will be: {}</p>\n".format(
             response_json["slots_after_lowering_bid"]),
         u"<p>If we increase the bid by removing a key the slots will be: {}</p>\n".format(
@@ -29,6 +30,7 @@ def get_response_as_html(response_json):
 
 
 def get_response_as_text(response_json):
+    validator = Validator.from_dict(response_json["validator"])
     text = ""
     slot = 1
     for validator_json in response_json["validators"]:
@@ -39,7 +41,7 @@ def get_response_as_text(response_json):
 
     text += u"".join((
         u"Current slots: {}\n".format(response_json["slots"]),
-        u"Current epoch uptime: {}\n".format(response_json["uptime"]),
+        u"Current epoch uptime: {}\n".format(validator.uptime_as_pct),
         u"My validator: {}\n".format(response_json["validator"]),
         u"If we lower the bid by adding key the slots will be: {}\n".format(
             response_json["slots_after_lowering_bid"]),

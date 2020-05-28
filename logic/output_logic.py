@@ -40,9 +40,11 @@ def get_response_as_text(response_json):
 
     validator = Validator.from_dict(response_json["validator"])
     text += u"".join((
+        u"Name: {}\n".format(validator.name),
         u"Current slots: {}\n".format(response_json["slots"]),
         u"Current epoch uptime: {}\n".format(validator.uptime_as_pct),
-        u"My validator: {}\n".format(response_json["validator"]),
+        u"Current bid: {}\n".format(validator.bid),
+        u"BLS keys: {}\n".format(u", ".join(validator.bls_keys)),
         u"If we lower the bid by adding key the slots will be: {}\n".format(
             response_json["slots_after_lowering_bid"]),
         u"If we increase the bid by removing a key the slots will be: {}\n".format(

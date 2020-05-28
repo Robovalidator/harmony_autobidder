@@ -23,14 +23,14 @@ def main(main_args):
     prev_slot_range = None
 
     if main_args.once:
-        run_loop(main_args.html)
+        run_loop(main_args)
     else:
         while 1:
             if main_args.raise_errors:
-                prev_slot_range = run_loop(main_args.html, prev_slot_range)
+                prev_slot_range = run_loop(main_args, prev_slot_range)
             else:
                 try:
-                    prev_slot_range = run_loop(main_args.html, prev_slot_range)
+                    prev_slot_range = run_loop(main_args, prev_slot_range)
                 except Exception:
                     ex_type, ex, ex_tb = sys.exc_info()
                     tb = traceback.format_tb(ex_tb, 100)
@@ -46,10 +46,12 @@ def main(main_args):
         print(u"</html></body>")
 
 
-def run_loop(html, prev_slot_range=None):
+def run_loop(main_args, prev_slot_range=None):
     response_json = bidding_logic.get_validators_and_bid_if_necessary()
     if prev_slot_range != response_json["slots"]:
-        if html:
+        if main_args.json:
+            print(response_json)
+        elif main_args.html:
             print(output_logic.get_response_as_html(response_json))
         else:
             print(u"\n")
@@ -67,7 +69,10 @@ def get_command_line_options():
         '-o', '--once', help='Whether or not to run once', action='store_true', default=False
     )
     parser.add_argument(
-        '-r', '--html', help='Whether or not to print html', action='store_true', default=False
+        '-l', '--html', help='Whether or not to print html', action='store_true', default=False
+    )
+    parser.add_argument(
+        '-j', '--json', help='Whether or not to output json', action='store_true', default=False
     )
     parser.add_argument(
         '-e', '--raise_errors', help='Whether or not to let errors stop execution', action='store_true', default=False

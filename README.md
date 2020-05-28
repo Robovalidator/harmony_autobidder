@@ -10,26 +10,26 @@ https://staking.harmony.one/validators/one1x8fhymx4xsygy4dju9ea9vhs3vqg0u3ht0nz7
 ## Setup
 ### Download the hmy client if you haven't already
 ```
-> cd ~/
-> mkdir ~/harmony
-> cd ~/harmony
-> curl -LO https://harmony.one/hmycli && mv hmycli hmy && chmod +x hmy
+$ cd ~/
+$ mkdir ~/harmony
+$ cd ~/harmony
+$ curl -LO https://harmony.one/hmycli && mv hmycli hmy && chmod +x hmy
 ```
 You don't have to use `~/harmony` but that's how the service is currently configured.
 See `config.py` if you'd like to modify the path setttings.
 
 ### Create your passphrase.txt file
 ```
-> echo 'passphrase' > ~/harmony/passphrase.txt
-> chmod og-rw ~/harmony/passphrase.txt
+$ echo 'passphrase' > ~/harmony/passphrase.txt
+$ chmod og-rw ~/harmony/passphrase.txt
 ```
 
 ### Copy BLS .key and .pass files into .hmy/allkeys
 ```
-> mkdir ~/harmony/.hmy/allkeys
-> cp ~/harmony/.hmy/blskeys/*.* ~/harmony/.hmy/allkeys
-> chmod og-rw ~/harmony/.hmy/allkeys/*.*
-> # Copy any other bls .key and .pass files from other nodes to ~/harmony/.hmy/allkeys as well
+$ mkdir ~/harmony/.hmy/allkeys
+$ cp ~/harmony/.hmy/blskeys/*.* ~/harmony/.hmy/allkeys
+$ chmod og-rw ~/harmony/.hmy/allkeys/*.*
+$ # Copy any other bls .key and .pass files from other nodes to ~/harmony/.hmy/allkeys as well
 ```
 
 ### Setup config.py 
@@ -42,12 +42,12 @@ See `config.py` if you'd like to modify the path setttings.
 
 ### Create a tmux session
 ```
-> tmux new-session -s autobidder
+$ tmux new-session -s autobidder
 ```
 
 ### Start the autobidding service
 ```
-> autobid.py
+$ autobid.py
 ...
 384: kaparnos (1019000)
 385: FNHarmonyOS (1000000)
@@ -69,3 +69,18 @@ If we increase the bid by removing a key the slots will be: 28
 ....
 ```
 The bot will poll for validator information every five seconds and output the state again if anything changes.
+
+## Script options
+```
+$ autobid.py --help
+usage: autobid.py [-h] [-o] [-l] [-j] [-e]
+
+Autobidding service for harmony validators. python autobid.py
+
+optional arguments:
+  -h, --help          show this help message and exit
+  -o, --once          Whether or not to run once
+  -l, --html          Whether or not to print html
+  -j, --json          Whether or not to output json
+  -e, --raise_errors  Whether or not to let errors stop execution
+```

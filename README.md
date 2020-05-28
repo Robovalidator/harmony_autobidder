@@ -37,7 +37,7 @@ $ # Copy any other bls .key and .pass files from other nodes to ~/harmony/.hmy/a
 `USE_REMOTE_NODE = False`
 2. Set `VALIDATOR_ADDR` to your validator's address
 3. Set `BLS_KEYS` to contain all your bls key string in order of highest priority. The keys will be added and removed as if this list was a stack.
-4. Configure `MAX_SLOT` and `MIN_SLOT` to your liking.
+4. Configure `MAX_SLOT` and `MIN_SLOT` to your liking. Note that the `MIN_SLOT` config works as a guideline and the bot will never adjust the keys in a way that puts you below `MAX_SLOT`.
 5. `MAX_VALIDATORS_PAGES` is the maximum number of validator pages the client can scan for downloading validator info
 
 ### Create a tmux session

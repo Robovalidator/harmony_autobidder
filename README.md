@@ -1,2 +1,3 @@
 # harmony_autobidder
-Python service which autobids for validators
+Harmony AutoBidder automatically manages BLS keys for your validator
+to ensure you stay within a slot range.

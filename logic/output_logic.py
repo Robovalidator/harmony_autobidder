@@ -30,7 +30,6 @@ def get_response_as_html(response_json):
 
 
 def get_response_as_text(response_json):
-    validator = Validator.from_dict(response_json["validator"])
     text = ""
     slot = 1
     for validator_json in response_json["validators"]:
@@ -39,6 +38,7 @@ def get_response_as_text(response_json):
         text += u"{}: {} ({})\n".format(str(slot_range), validator.name, validator.bid)
         slot = slot_range.end + 1
 
+    validator = Validator.from_dict(response_json["validator"])
     text += u"".join((
         u"Current slots: {}\n".format(response_json["slots"]),
         u"Current epoch uptime: {}\n".format(validator.uptime_as_pct),

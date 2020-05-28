@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+from __future__ import absolute_import, print_function
+
 import argparse
 import sys
 import traceback
@@ -45,8 +47,7 @@ def main(main_args):
 
 
 def run_loop(html, prev_slot_range=None):
-    response_json = bidding_logic.run_autobid(
-        prev_slot_range=prev_slot_range)
+    response_json = bidding_logic.get_validators_and_bid_if_necessary()
     if prev_slot_range != response_json["slots"]:
         if html:
             print(output_logic.get_response_as_html(response_json))

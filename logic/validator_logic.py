@@ -59,11 +59,10 @@ def get_all_validators():
     return validators
 
 
-def get_my_slot_range_for_validators(validators):
+def get_my_slot_range_for_validators(validators, my_validator):
     validators.sort(key=lambda v: v.bid, reverse=True)
     slot = 1
     my_slot_range = None
-    my_validator = None
 
     for validator in validators:
         slot_range = SlotRange(slot, slot + validator.num_slots - 1)
@@ -74,13 +73,10 @@ def get_my_slot_range_for_validators(validators):
 
         slot = slot_range.end + 1
 
-    if not my_validator:
-        my_validator = get_my_validator()
-
     if not my_slot_range:
         my_slot_range = SlotRange(slot, slot + (my_validator.num_slots - 1))
 
-    return my_slot_range, my_validator
+    return my_slot_range
 
 
 def get_missing_key(validator):

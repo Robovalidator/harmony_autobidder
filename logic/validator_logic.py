@@ -36,8 +36,10 @@ def get_all_validators():
     while i < config.MAX_VALIDATORS_PAGES:
         response = client.get_all_validators_info_page(i)
         if not response:
-            return
+            return validators
         info_jsons = response['result']
+        if not info_jsons:
+            return validators
         for info_json in info_jsons:
             perf = get_uptime(info_json)
             inactive = info_json['booted-status'] == BootedStatus.Inactive.value

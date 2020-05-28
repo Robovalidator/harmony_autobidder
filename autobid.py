@@ -47,7 +47,8 @@ def main(main_args):
 
 
 def run_loop(main_args, prev_response_json=None):
-    response_json = bidding_logic.get_validators_and_bid_if_necessary()
+    bidding_enabled = not main_args.disable_bidding
+    response_json = bidding_logic.get_validators_and_bid_if_necessary(bidding_enabled=bidding_enabled)
     if prev_response_json != response_json:
         if main_args.json:
             print(response_json)
@@ -77,7 +78,10 @@ def get_command_line_options():
     parser.add_argument(
         '-e', '--raise_errors', help='Whether or not to let errors stop execution', action='store_true', default=False
     )
-
+    parser.add_argument(
+        '-d', '--disable_bidding', help="If set then disable bidding, just output information", action='store_true',
+        default=False
+    )
     return parser.parse_args()
 
 

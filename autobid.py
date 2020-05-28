@@ -26,7 +26,9 @@ def main(main_args):
         run_loop(main_args.html)
     else:
         while 1:
-            if main_args.ignore_error:
+            if main_args.raise_errors:
+                prev_slot_range = run_loop(main_args.html, prev_slot_range)
+            else:
                 try:
                     prev_slot_range = run_loop(main_args.html, prev_slot_range)
                 except Exception:
@@ -34,8 +36,6 @@ def main(main_args):
                     tb = traceback.format_tb(ex_tb, 100)
                     print(u"Got an error! {}\n Traceback: {}".format(repr(ex),
                                                                      "\n".join(tb)))
-            else:
-                prev_slot_range = run_loop(main_args.html, prev_slot_range)
             sleep(interval)
             if not main_args.html:
                 print(u".", end=u"")
@@ -71,7 +71,7 @@ def get_command_line_options():
         '-r', '--html', help='Whether or not to print html', action='store_true', default=False
     )
     parser.add_argument(
-        '-i', '--ignore_error', help='Whether or not to ignore and log errors', action='store_true', default=False
+        '-e', '--raise_errors', help='Whether or not to let errors stop execution', action='store_true', default=False
     )
 
     return parser.parse_args()

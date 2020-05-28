@@ -26,6 +26,10 @@ def get_all_validators_info_page(page):
     return get_json_for_command(["hmy", "blockchain", "validator", "all-information", str(page)])
 
 
+def get_latest_header():
+    return get_json_for_command(["hmy", "blockchain", "latest-header"])
+
+
 def _get_base_edit_validator_process_args():
     return ["hmy", "staking", "edit-validator",
             "--validator-addr", config.VALIDATOR_ADDR,

@@ -8,7 +8,7 @@ import traceback
 from time import sleep
 
 import config
-from logic import bidding_logic, output_logic
+from logic import bidding_logic, epoch_logic, output_logic, validator_logic
 
 
 def main(main_args):
@@ -18,9 +18,9 @@ def main(main_args):
         html = html % (config.MIN_SLOT, config.MAX_SLOT)
         print(html)
 
-    interval = config.POLL_INTERVAL_SECONDS
     i = 0
     prev_response_json = None
+    prev_interval = None
 
     if main_args.once:
         run_loop(main_args)
@@ -36,10 +36,16 @@ def main(main_args):
                     tb = traceback.format_tb(ex_tb, 100)
                     print(u"Got an error! {}\n Traceback: {}".format(repr(ex),
                                                                      "\n".join(tb)))
+            interval = epoch_logic.get_interval_seconds()
+            if interval != prev_interval:
+                print(u"Set polling to every {} seconds".format(interval))
             sleep(interval)
+            prev_interval = interval
+
             if not main_args.html:
                 print(u".", end=u"")
                 sys.stdout.flush()
+
             i += 1
 
     if main_args.html:
@@ -50,8 +56,7 @@ def run_loop(main_args, prev_response_json=None):
     bidding_enabled = not main_args.disable_bidding
     response_json = bidding_logic.get_validators_and_bid_if_necessary(bidding_enabled=bidding_enabled)
 
-    if (prev_response_json is None or prev_response_json["slots"] != response_json["slots"]
-            or response_json.get("action") or response_json.get("new_slots")):
+    if validator_logic.should_show_response_json(prev_response_json, response_json):
         if main_args.json:
             print(response_json)
         elif main_args.html:

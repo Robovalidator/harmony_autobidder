@@ -51,6 +51,7 @@ def get_all_validators():
                 if validator.bid >= config.VALIDATOR_MIN_BID:
                     validators.append(validator)
                     existing_addresses.add(validator.address)
+
         i += 1
 
     # my validator may be more up to date
@@ -106,3 +107,9 @@ def get_validator_remove_key(validator):
     num_slots = len(bls_keys)
     bid = validator.bid * validator.num_slots / (1.0 * num_slots)
     return Validator(validator.address, validator.name, bid, bls_keys, num_slots, validator.uptime), removed_key
+
+
+def should_show_response_json(prev_response_json, response_json):
+    return (prev_response_json is None or prev_response_json["slots"] != response_json["slots"]
+            or response_json.get("action") or response_json.get("new_slots"))
+

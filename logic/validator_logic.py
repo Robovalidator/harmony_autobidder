@@ -77,6 +77,9 @@ def get_my_slot_range_for_validators(validators):
     if not my_validator:
         my_validator = get_my_validator()
 
+    if not my_slot_range:
+        my_slot_range = SlotRange(slot, slot + (my_validator.num_slots - 1))
+
     return my_slot_range, my_validator
 
 

@@ -32,7 +32,8 @@ def main(main_args):
                 except Exception:
                     ex_type, ex, ex_tb = sys.exc_info()
                     tb = traceback.format_tb(ex_tb, 100)
-                    print(u"Got an error! Traceback: {}".format("\n".join(tb)))
+                    print(u"Got an error! {}\n Traceback: {}".format(repr(ex),
+                                                                     "\n".join(tb)))
             else:
                 prev_slot_range = run_loop(main_args.html, prev_slot_range)
             sleep(interval)
@@ -47,8 +48,7 @@ def main(main_args):
 
 def run_loop(html, prev_slot_range=None):
     response_json = bidding_logic.run_autobid(
-        prev_slot_range=prev_slot_range,
-        html=main_args.html)
+        prev_slot_range=prev_slot_range)
     if prev_slot_range != response_json["slots"]:
         if html:
             print(output_logic.get_response_as_html(response_json))

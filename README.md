@@ -83,4 +83,5 @@ optional arguments:
   -l, --html          Whether or not to print html
   -j, --json          Whether or not to output json
   -e, --raise_errors  Whether or not to let errors stop execution
+  -d, --disable_bidding  If set then disable bidding and just output information
 ```

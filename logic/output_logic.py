@@ -62,4 +62,5 @@ def get_response_as_text(response_json):
     new_slots = response_json.get("new_slots")
     if new_slots:
         text += u"New slots after taking action: {}\n".format(response_json["new_slots"])
+
     return text

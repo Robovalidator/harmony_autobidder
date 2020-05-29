@@ -34,7 +34,8 @@ def _get_base_edit_validator_process_args():
     return ["hmy", "staking", "edit-validator",
             "--validator-addr", config.VALIDATOR_ADDR,
             "--passphrase-file", config.PASSPHRASE_PATH,
-            "--bls-pubkeys-dir", config.BLS_ALL_KEYS_PATH]
+            "--bls-pubkeys-dir", config.BLS_ALL_KEYS_PATH,
+            "--true-nonce", "--gas-price", str(config.BID_GAS_PRICE)]
 
 
 def remove_bls_key(bls_key):

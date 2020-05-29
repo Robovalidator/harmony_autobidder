@@ -35,7 +35,7 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
         next_slot_range = validator_logic.get_my_slot_range_for_validators(validators_increasing_bid,
                                                                            my_validator)
         response_json["slots_after_increasing_bid"] = str(next_slot_range)
-        if my_slot_range.end >= config.MAX_SLOT and bidding_enabled and "action" not in response_json:
+        if my_slot_range.end >= config.MAX_SLOT and bidding_enabled and not response_json.get("action"):
             response_json["action"] = u"Increasing the bid by removing key {}".format(key_to_remove)
             client.remove_bls_key(key_to_remove)
             response_json["removed_bls_key"] = key_to_remove

@@ -64,6 +64,7 @@ def run_loop(main_args, prev_response_json=None):
         else:
             print(u"\n")
             print(output_logic.get_response_as_text(response_json))
+
     return response_json
 
 

@@ -56,4 +56,3 @@ VALIDATOR_MIN_BID = 200000
 BASE_HTML_PATH = "{}/harmony/robovalidator.html".format(HOME)
 
 BID_GAS_PRICE = 2
-

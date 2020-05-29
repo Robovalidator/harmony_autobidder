@@ -30,19 +30,19 @@ def get_latest_header():
     return get_json_for_command(["hmy", "blockchain", "latest-header"])
 
 
-def _get_base_edit_validator_process_args():
+def _get_base_edit_validator_process_args(gas_price=config.BID_GAS_PRICE):
     return ["hmy", "staking", "edit-validator",
             "--validator-addr", config.VALIDATOR_ADDR,
             "--passphrase-file", config.PASSPHRASE_PATH,
             "--bls-pubkeys-dir", config.BLS_ALL_KEYS_PATH,
-            "--true-nonce", "--gas-price", str(config.BID_GAS_PRICE)]
+            "--true-nonce", "--gas-price", str(gas_price)]
 
 
-def remove_bls_key(bls_key):
-    base_process_args = _get_base_edit_validator_process_args()
+def remove_bls_key(bls_key, gas_price=config.BID_GAS_PRICE):
+    base_process_args = _get_base_edit_validator_process_args(gas_price=gas_price)
     return get_json_for_command(base_process_args + ["--remove-bls-key", bls_key])
 
 
-def add_bls_key(bls_key):
-    base_process_args = _get_base_edit_validator_process_args()
+def add_bls_key(bls_key, gas_price=config.BID_GAS_PRICE):
+    base_process_args = _get_base_edit_validator_process_args(gas_price=gas_price)
     return get_json_for_command(base_process_args + ["--add-bls-key", bls_key])

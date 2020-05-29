@@ -1,9 +1,11 @@
 import config
 from models import Validator, SlotRange
+from enums import TimeUnit
 
 
 def get_response_as_html(response_json):
     validator = Validator.from_dict(response_json["validator"])
+    hours = round(response_json["num_seconds_left"] / (TimeUnit.Hour * 1.0), 2)
     html = u"".join((
         u"<p>Current slots: {}</p>\n".format(response_json["slots"]),
         u"<p>Current epoch uptime: {}</p>\n".format(validator.uptime_as_pct),
@@ -11,10 +13,7 @@ def get_response_as_html(response_json):
             response_json.get("slots_after_lowering_bid", "N/A")),
         u"<p>If we increase the bid by removing a key the slots will be: {}</p>\n".format(
             response_json.get("slots_after_increasing_bid", "N/A")),
-        u"<p>Number of blocks left in current epoch: {}</p>\n".format(
-            response_json["num_blocks_left"]),
-        u"<p>Number of seconds left in current epoch: {}</p>\n".format(
-            response_json["num_seconds_left"]),
+        u"<p>Epoch progress: {} blocks left ({} hours)</p>\n".format(response_json["num_blocks_left"], hours),
         u"<table><tr><td>Slot(s)</td><td>Validator Name</td><td>Bid per slot</td><td>Uptime</td></tr>\n"
     ))
 
@@ -43,6 +42,7 @@ def get_response_as_text(response_json):
         slot = slot_range.end + 1
 
     validator = Validator.from_dict(response_json["validator"])
+    hours = round(response_json["num_seconds_left"] / (TimeUnit.Hour * 1.0), 2)
     text += u"".join((
         u"Name: {}\n".format(validator.name),
         u"Current slots: {}\n".format(response_json["slots"]),
@@ -53,12 +53,8 @@ def get_response_as_text(response_json):
             response_json.get("slots_after_lowering_bid", "N/A")),
         u"If we increase the bid by removing a key the slots will be: {}\n".format(
             response_json.get("slots_after_increasing_bid", "N/A")),
-        u"Number of blocks left in current epoch: {}\n".format(
-            response_json["num_blocks_left"]),
-        u"Number of seconds left in current epoch: {}\n".format(
-            response_json["num_seconds_left"]),
-        u"Polling interval seconds: {}\n".format(
-            response_json["interval_seconds"]),
+        u"Epoch progress: {} blocks left ({} hours)\n".format(response_json["num_blocks_left"], hours),
+        u"Polling interval seconds: {}\n".format(response_json["interval_seconds"]),
     ))
 
     removed_bls_key = response_json.get("removed_bls_key")

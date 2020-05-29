@@ -51,7 +51,6 @@ def get_all_validators():
                 if validator.bid >= config.VALIDATOR_MIN_BID:
                     validators.append(validator)
                     existing_addresses.add(validator.address)
-
         i += 1
 
     # my validator may be more up to date

@@ -8,9 +8,9 @@ def get_response_as_html(response_json):
         u"<p>Current slots: {}</p>\n".format(response_json["slots"]),
         u"<p>Current epoch uptime: {}</p>\n".format(validator.uptime_as_pct),
         u"<p>If we lower the bid by adding key the slots will be: {}</p>\n".format(
-            response_json["slots_after_lowering_bid"]),
+            response_json.get("slots_after_lowering_bid", "N/A")),
         u"<p>If we increase the bid by removing a key the slots will be: {}</p>\n".format(
-            response_json["slots_after_increasing_bid"]),
+            response_json.get("slots_after_increasing_bid", "N/A")),
         u"<table><tr><td>Slot(s)</td><td>Validator Name</td><td>Bid per slot</td><td>Uptime</td></tr>\n"
     ))
 
@@ -46,9 +46,9 @@ def get_response_as_text(response_json):
         u"Current bid: {}\n".format(validator.bid),
         u"BLS keys: {}\n".format(u", ".join(validator.bls_keys)),
         u"If we lower the bid by adding key the slots will be: {}\n".format(
-            response_json["slots_after_lowering_bid"]),
+            response_json.get("slots_after_lowering_bid", "N/A")),
         u"If we increase the bid by removing a key the slots will be: {}\n".format(
-            response_json["slots_after_increasing_bid"])
+            response_json.get("slots_after_increasing_bid", "N/A"))
     ))
 
     removed_bls_key = response_json.get("removed_bls_key")

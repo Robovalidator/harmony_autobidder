@@ -1,6 +1,7 @@
 import client
 import config
 from logic import validator_logic
+from logic import epoch_logic
 
 
 def get_validators_and_bid_if_necessary(bidding_enabled=False):
@@ -11,7 +12,10 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
         action=None,
         slots=str(my_slot_range),
         validator=my_validator.to_dict(),
-        validators=[v.to_dict() for v in validators]
+        validators=[v.to_dict() for v in validators],
+        num_blocks_left=epoch_logic.get_remaining_blocks_for_current_epoch(),
+        num_seconds_left=epoch_logic.get_remaining_seconds_for_current_epoch(),
+        interval_seconds=epoch_logic.get_interval_seconds()
     )
 
     validator_lower_bid, key_to_add = validator_logic.get_validator_add_key(my_validator)

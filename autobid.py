@@ -3,6 +3,7 @@
 from __future__ import absolute_import, print_function
 
 import argparse
+import pprint
 import sys
 import traceback
 from time import sleep
@@ -20,29 +21,25 @@ def main(main_args):
 
     i = 0
     prev_response_json = None
-    prev_interval = None
 
     if main_args.once:
-        run_loop(main_args)
+        run_once(main_args)
     else:
         while 1:
             if main_args.raise_errors:
-                prev_response_json = run_loop(main_args, prev_response_json=prev_response_json)
+                prev_response_json = run_once(main_args, prev_response_json=prev_response_json)
             else:
                 try:
-                    prev_response_json = run_loop(main_args, prev_response_json=prev_response_json)
+                    prev_response_json = run_once(main_args, prev_response_json=prev_response_json)
                 except Exception:
                     ex_type, ex, ex_tb = sys.exc_info()
                     tb = traceback.format_tb(ex_tb, 100)
                     print(u"Got an error! {}\n Traceback: {}".format(repr(ex),
                                                                      "\n".join(tb)))
-            interval = epoch_logic.get_interval_seconds()
-            if interval != prev_interval:
-                print(u"Set polling to every {} seconds".format(interval))
+            interval = prev_response_json.get("interval_seconds") or epoch_logic.get_interval_seconds()
             sleep(interval)
-            prev_interval = interval
 
-            if not main_args.html:
+            if not main_args.html and not main_args.json:
                 print(u".", end=u"")
                 sys.stdout.flush()
 
@@ -52,13 +49,14 @@ def main(main_args):
         print(u"</html></body>")
 
 
-def run_loop(main_args, prev_response_json=None):
+def run_once(main_args, prev_response_json=None):
     bidding_enabled = not main_args.disable_bidding
     response_json = bidding_logic.get_validators_and_bid_if_necessary(bidding_enabled=bidding_enabled)
 
     if validator_logic.should_show_response_json(prev_response_json, response_json):
         if main_args.json:
-            print(response_json)
+            pp = pprint.PrettyPrinter(indent=4)
+            pp.pprint(response_json)
         elif main_args.html:
             print(output_logic.get_response_as_html(response_json))
         else:

@@ -11,6 +11,10 @@ def get_response_as_html(response_json):
             response_json.get("slots_after_lowering_bid", "N/A")),
         u"<p>If we increase the bid by removing a key the slots will be: {}</p>\n".format(
             response_json.get("slots_after_increasing_bid", "N/A")),
+        u"<p>Number of blocks left in current epoch: {}</p>\n".format(
+            response_json["num_blocks_left"]),
+        u"<p>Number of seconds left in current epoch: {}</p>\n".format(
+            response_json["num_seconds_left"]),
         u"<table><tr><td>Slot(s)</td><td>Validator Name</td><td>Bid per slot</td><td>Uptime</td></tr>\n"
     ))
 
@@ -48,7 +52,13 @@ def get_response_as_text(response_json):
         u"If we lower the bid by adding key the slots will be: {}\n".format(
             response_json.get("slots_after_lowering_bid", "N/A")),
         u"If we increase the bid by removing a key the slots will be: {}\n".format(
-            response_json.get("slots_after_increasing_bid", "N/A"))
+            response_json.get("slots_after_increasing_bid", "N/A")),
+        u"Number of blocks left in current epoch: {}\n".format(
+            response_json["num_blocks_left"]),
+        u"Number of seconds left in current epoch: {}\n".format(
+            response_json["num_seconds_left"]),
+        u"Polling interval seconds: {}\n".format(
+            response_json["interval_seconds"]),
     ))
 
     removed_bls_key = response_json.get("removed_bls_key")

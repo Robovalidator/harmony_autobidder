@@ -8,7 +8,7 @@ def get_remaining_blocks_for_current_epoch():
     block_number = result_json['blockNumber']
     current_epoch = result_json['epoch']
     block_number_end = get_block_number_for_epoch_end(current_epoch)
-    return block_number_end - block_number
+    return (block_number_end - block_number) + 1
 
 
 def get_block_number_for_epoch_end(epoch):

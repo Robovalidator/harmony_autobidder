@@ -36,7 +36,7 @@ def main(main_args):
                     tb = traceback.format_tb(ex_tb, 100)
                     print(u"Got an error! {}\n Traceback: {}".format(repr(ex),
                                                                      "\n".join(tb)))
-            interval = prev_response_json.get("interval_seconds") or epoch_logic.get_interval_seconds()
+            interval = (prev_response_json or {}).get("interval_seconds") or epoch_logic.get_interval_seconds()
             sleep(interval)
 
             if not main_args.html and not main_args.json:

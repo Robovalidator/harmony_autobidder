@@ -27,22 +27,23 @@ def main(main_args):
     else:
         while 1:
             if main_args.raise_errors:
-                prev_response_json = run_once(main_args, prev_response_json=prev_response_json)
+                response_json = run_once(main_args, prev_response_json=prev_response_json)
             else:
                 try:
-                    prev_response_json = run_once(main_args, prev_response_json=prev_response_json)
+                    response_json = run_once(main_args, prev_response_json=prev_response_json)
                 except Exception:
+                    response_json = {}
                     ex_type, ex, ex_tb = sys.exc_info()
                     tb = traceback.format_tb(ex_tb, 100)
                     print(u"Got an error! {}\n Traceback: {}".format(repr(ex),
                                                                      "\n".join(tb)))
-            interval = (prev_response_json or {}).get("interval_seconds") or epoch_logic.get_interval_seconds()
+            interval = response_json.get("interval_seconds") or epoch_logic.get_interval_seconds()
             sleep(interval)
-
             if not main_args.html and not main_args.json:
                 print(u".", end=u"")
                 sys.stdout.flush()
 
+            prev_response_json = response_json
             i += 1
 
     if main_args.html:

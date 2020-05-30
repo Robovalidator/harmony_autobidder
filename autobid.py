@@ -53,7 +53,7 @@ def run_once(main_args, prev_response_json=None):
     bidding_enabled = not main_args.disable_bidding
     response_json = bidding_logic.get_validators_and_bid_if_necessary(bidding_enabled=bidding_enabled)
 
-    if validator_logic.should_show_response_json(prev_response_json, response_json):
+    if bidding_logic.should_show_response_json(prev_response_json, response_json):
         if main_args.json:
             pp = pprint.PrettyPrinter(indent=4)
             pp.pprint(response_json)

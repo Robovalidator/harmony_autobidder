@@ -107,8 +107,3 @@ def get_validator_remove_key(validator):
     bid = validator.bid * validator.num_slots / (1.0 * num_slots)
     return Validator(validator.address, validator.name, bid, bls_keys, num_slots, validator.uptime), removed_key
 
-
-def should_show_response_json(prev_response_json, response_json):
-    return (prev_response_json is None or prev_response_json["slots"] != response_json["slots"]
-            or response_json.get("action") or response_json.get("new_slots"))
-

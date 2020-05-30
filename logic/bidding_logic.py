@@ -48,3 +48,9 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
             response_json["new_slots"] = str(my_slot_range)
 
     return response_json
+
+
+def should_show_response_json(prev_response_json, response_json):
+    return (prev_response_json is None or prev_response_json["slots"] != response_json["slots"]
+            or response_json.get("action") or response_json.get("new_slots")
+            or prev_response_json["interval_seconds"] != response_json["interval_seconds"])

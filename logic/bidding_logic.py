@@ -51,6 +51,8 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
 
 
 def should_show_response_json(prev_response_json, response_json):
-    return (prev_response_json is None or prev_response_json["slots"] != response_json["slots"]
+    if not response_json:
+        raise RuntimeError("response_json should be populated: {}".format(response_json))
+    return (not prev_response_json or prev_response_json["slots"] != response_json["slots"]
             or response_json.get("action") or response_json.get("new_slots")
             or prev_response_json["interval_seconds"] != response_json["interval_seconds"])

@@ -17,6 +17,7 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
         num_seconds_left=epoch_logic.get_remaining_seconds_for_current_epoch(),
         interval_seconds=epoch_logic.get_interval_seconds()
     )
+    changed_keys = False
 
     validator_lower_bid, key_to_add = validator_logic.get_validator_add_key(my_validator)
     if validator_lower_bid:
@@ -27,6 +28,7 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
         if my_slot_range.end <= config.MIN_SLOT and next_slot_range.end <= config.MAX_SLOT and bidding_enabled:
             response_json["action"] = u"Lowering the bid by adding key {}".format(key_to_add)
             response_json["added_bls_key"] = key_to_add
+            changed_keys = True
             client.add_bls_key(key_to_add)
             validators = validator_logic.get_all_validators()
             my_slot_range = validator_logic.get_my_slot_range_for_validators(validators, my_validator)
@@ -43,10 +45,13 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
             response_json["action"] = u"Increasing the bid by removing key {}".format(key_to_remove)
             client.remove_bls_key(key_to_remove)
             response_json["removed_bls_key"] = key_to_remove
+            changed_keys = True
             validators = validator_logic.get_all_validators()
             my_slot_range = validator_logic.get_my_slot_range_for_validators(validators, my_validator)
             response_json["new_slots"] = str(my_slot_range)
 
+    if changed_keys:
+        response_json['interval_seconds'] = 1
     return response_json
 
 

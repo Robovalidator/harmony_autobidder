@@ -34,17 +34,17 @@ BLS_KEYS = (
     "2bcee590cb191a7bff14641fb0afdd6e07ee83b45e7247fce9dcf0fc10d8c7c3560dad54891cdf8bffff36e4a2c24f04",
 
     # Shard 1
-    "1fd87fa97fb1f0558fc59bd58b3400cac7b8297f7357a8ac633a035fe54b743de0a88122c837bc3cd81351772a3f9419",
-    "84410bce01d1cc0a79832f8bef3196d9aa948dcb32df76c7111f2399a8592713dfffffd582f6452136a4fc4de0bede11",
-    "4191653833ccc87bdc4f30a83709b4ee3a54f2cee422485e1f7688fbee5d5b22ab1c447ffaab1c160f29290de697a719",
-    "b39a795169c5a144779e7acd614f039b6c0e4c9ed918e9b91bd4ef9b611f7421bba2472fd41e10acd0541d1d2ad0b981",
+#    "1fd87fa97fb1f0558fc59bd58b3400cac7b8297f7357a8ac633a035fe54b743de0a88122c837bc3cd81351772a3f9419",
+#    "84410bce01d1cc0a79832f8bef3196d9aa948dcb32df76c7111f2399a8592713dfffffd582f6452136a4fc4de0bede11",
+#    "4191653833ccc87bdc4f30a83709b4ee3a54f2cee422485e1f7688fbee5d5b22ab1c447ffaab1c160f29290de697a719",
+#    "b39a795169c5a144779e7acd614f039b6c0e4c9ed918e9b91bd4ef9b611f7421bba2472fd41e10acd0541d1d2ad0b981",
 )
 
 # Maximum allowable slot
-MAX_SLOT = 450
+MAX_SLOT = 475
 
 # Minimum slot to shoot for as long as removing a key doesn't move us past the MAX_SLOT
-MIN_SLOT = 350
+MIN_SLOT = 450
 
 # Maximum validator pages to parse
 MAX_VALIDATORS_PAGES = 50

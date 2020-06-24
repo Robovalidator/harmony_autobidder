@@ -33,6 +33,9 @@ def get_all_validators():
     i = 0
     validators = []
     existing_addresses = set()
+    # my validator may be more up to date
+    my_validator = get_my_validator()
+
     while i < config.MAX_VALIDATORS_PAGES:
         response = client.get_all_validators_info_page(i)
         if not response:
@@ -44,8 +47,9 @@ def get_all_validators():
             perf = get_uptime(info_json)
             inactive = info_json['booted-status'] == BootedStatus.Inactive.value
             eligible = info_json['epos-status'] == EposStatus.EligibleElected.value
-            if (not inactive or eligible) and perf >= Uptime.RequiredThreshold:
-                validator = extract_validator(info_json)
+            validator = extract_validator(info_json)
+            if (validator.address == my_validator.address
+                    or (not inactive or eligible) and perf >= Uptime.RequiredThreshold):
                 if validator.address in existing_addresses:
                     continue
                 if validator.bid >= config.VALIDATOR_MIN_BID:
@@ -53,8 +57,6 @@ def get_all_validators():
                     existing_addresses.add(validator.address)
         i += 1
 
-    # my validator may be more up to date
-    my_validator = get_my_validator()
     if my_validator:
         validators = [my_validator if val.address == my_validator.address else val for val in validators]
 

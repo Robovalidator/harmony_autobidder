@@ -88,7 +88,8 @@ def usage():
 
 
 def get_command_line_options():
-    parser = argparse.ArgumentParser(description="Compute staking taxes.\n\n" + usage())
+    parser = argparse.ArgumentParser(description="Query staking taxes and output them to a Bitcoin.tax "
+                                                 "CSV file.\n\n" + usage())
     parser.add_argument(
         '-a', '--address', help='address', type=str
     )

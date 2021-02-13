@@ -40,7 +40,6 @@ def get_transaction_history(address, page_index=0):
         }
     ]
 
-    # Example echo method
     payload = {
         "method": "hmyv2_getStakingTransactionsHistory",
         "params": params,

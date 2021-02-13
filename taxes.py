@@ -12,20 +12,18 @@ JSONRPC_ENDPOINT = "https://rpc.s0.t.hmny.io"
 
 
 def main(main_args):
-    write_csv(main_args.address, main_args.file)
+    write_csv(main_args.address, main_args.file, main_args.start_page, main_args.end_page)
 
 
-def write_csv(address, csv_file):
+def write_csv(address, csv_file, start_page, end_page):
     fieldnames = ("Date", "Action", "Account", "Symbol", "Volume", "Total", "Currency", "Memo")
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     writer.writeheader()
-    page_index = 0
-    while 1:
+    for page_index in range(start_page, end_page + 1):
         rows = get_transaction_history(address, page_index=page_index)
+        print(page_index)
         print(rows)
         writer.writerows(rows)
-        if not rows:
-            break
         page_index += 1
     csv_file.close()
 
@@ -93,6 +91,8 @@ def get_command_line_options():
         '-a', '--address', help='address', type=str
     )
     parser.add_argument('-f', '--file', help='csv outputfile', type=argparse.FileType(mode='w'))
+    parser.add_argument('-s', '--start_page', help='starting page index', type=int, default=0)
+    parser.add_argument('-e', '--end_page', help='end page index', type=int)
     return parser.parse_args()
 
 

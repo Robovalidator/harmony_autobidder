@@ -25,7 +25,10 @@ def write_csv(address, csv_file, start_page, end_page):
         print(rows)
         writer.writerows(rows)
         page_index += 1
+        if not rows:
+            break
     csv_file.close()
+    print("Generated bitcoin.tax file {}".format(csv_file.name))
 
 def get_transaction_history(address, page_index=0):
     params = [
@@ -81,7 +84,7 @@ def get_transaction_receipt(hash):
 
 
 def usage():
-    return """python taxes.py"""
+    return """python taxes.py -a <validator_address> -f <output_filename>"""
 
 
 def get_command_line_options():
@@ -90,9 +93,9 @@ def get_command_line_options():
     parser.add_argument(
         '-a', '--address', help='address', type=str
     )
-    parser.add_argument('-f', '--file', help='csv outputfile', type=argparse.FileType(mode='w'))
+    parser.add_argument('-f', '--file', help='csv outputfile', type=argparse.FileType(mode='w'), default='staking_taxes.csv')
     parser.add_argument('-s', '--start_page', help='starting page index', type=int, default=0)
-    parser.add_argument('-e', '--end_page', help='end page index', type=int)
+    parser.add_argument('-e', '--end_page', help='end page index', type=int, default=9999999)
     return parser.parse_args()
 
 

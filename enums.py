@@ -19,10 +19,10 @@ class Uptime(object):
 
 
 class EpochStats(object):
-    FirstEpoch = 186
-    FirstBlock = int("0x338000", 16)
-    EpochSize = int("0x4000", 16)
-    SecondsPerBlock = 8.0
+    FirstEpoch = 366
+    FirstBlock = 6324224
+    EpochSize = 32768
+    SecondsPerBlock = 2.0
 
 
 class TimeUnit(object):

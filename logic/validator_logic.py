@@ -1,7 +1,10 @@
+from time import sleep
+
 import client
-import config
 from enums import BootedStatus, EposStatus, OneUnit, Uptime
 from models import SlotRange, Validator
+
+import config
 
 
 def get_uptime(info_json):
@@ -38,8 +41,6 @@ def get_all_validators():
 
     while i < config.MAX_VALIDATORS_PAGES:
         response = client.get_all_validators_info_page(i)
-        if not response:
-            break
         info_jsons = response['result']
         if not info_jsons:
             break
@@ -108,4 +109,3 @@ def get_validator_remove_key(validator):
     num_slots = len(bls_keys)
     bid = validator.bid * validator.num_slots / (1.0 * num_slots)
     return Validator(validator.address, validator.name, bid, bls_keys, num_slots, validator.uptime), removed_key
-

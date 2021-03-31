@@ -1,11 +1,23 @@
-import client
-import config
-from logic import validator_logic
-from logic import epoch_logic
+import time
+from time import sleep
 
+import client
+from logic import epoch_logic, validator_logic
+
+import config
+
+VALIDATOR_LENGTHS = []
+MAX_VALIDATOR_LENGTHS = 20
 
 def get_validators_and_bid_if_necessary(bidding_enabled=False):
     validators = validator_logic.get_all_validators()
+    VALIDATOR_LENGTHS.append(len(validators))
+    if len(VALIDATOR_LENGTHS) > MAX_VALIDATOR_LENGTHS:
+        VALIDATOR_LENGTHS.pop(0)
+    avg_length = sum(VALIDATOR_LENGTHS) / (1.0 * len(VALIDATOR_LENGTHS))
+    print("Average # of validators: {}".format(avg_length))
+    bidding_enabled = len(validators) >= (avg_length - 5)
+
     my_validator = validator_logic.get_my_validator()
     my_slot_range = validator_logic.get_my_slot_range_for_validators(validators, my_validator)
     response_json = dict(
@@ -17,6 +29,10 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
         num_seconds_left=epoch_logic.get_remaining_seconds_for_current_epoch(),
         interval_seconds=epoch_logic.get_interval_seconds()
     )
+    if not bidding_enabled:
+        response_json['interval_seconds'] = 0.5
+        return response_json
+
     changed_keys = False
 
     validator_lower_bid, key_to_add = validator_logic.get_validator_add_key(my_validator)

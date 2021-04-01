@@ -28,10 +28,10 @@ BLS_KEYS = (
     "dbeadb874e853645f7010be775bff281edca340c6067c390fbdaab6aa3b97ce86c874ad778c6520935354f770a40ce0e",
 
     # Shard 0
-    "710366b83f9d120a763f2e68c994e10033940ddf7ec0eeefef3d4c990dd5d45f4c7d7ccc7ca67d99f0e40c354e539e00",
-    "f82d30adadabaaaeba00406a5d607134343888dccf4fc45bdc22f02ad10df3ddeed1656a2a253262dae92095297e3f84",
-    "8be0121e5282071287886b07af678eefb67737f12d306c370f588d2612bf3020f9dc97fce63ee86c0ee3cd2153e43f90",
-    "2bcee590cb191a7bff14641fb0afdd6e07ee83b45e7247fce9dcf0fc10d8c7c3560dad54891cdf8bffff36e4a2c24f04",
+#    "710366b83f9d120a763f2e68c994e10033940ddf7ec0eeefef3d4c990dd5d45f4c7d7ccc7ca67d99f0e40c354e539e00",
+#    "f82d30adadabaaaeba00406a5d607134343888dccf4fc45bdc22f02ad10df3ddeed1656a2a253262dae92095297e3f84",
+#    "8be0121e5282071287886b07af678eefb67737f12d306c370f588d2612bf3020f9dc97fce63ee86c0ee3cd2153e43f90",
+#    "2bcee590cb191a7bff14641fb0afdd6e07ee83b45e7247fce9dcf0fc10d8c7c3560dad54891cdf8bffff36e4a2c24f04",
 
     # Shard 1
 #    "1fd87fa97fb1f0558fc59bd58b3400cac7b8297f7357a8ac633a035fe54b743de0a88122c837bc3cd81351772a3f9419",
@@ -41,10 +41,10 @@ BLS_KEYS = (
 )
 
 # Maximum allowable slot
-MAX_SLOT = 475
+MAX_SLOT = 638
 
 # Minimum slot to shoot for as long as removing a key doesn't move us past the MAX_SLOT
-MIN_SLOT = 450
+MIN_SLOT = 620
 
 # Maximum validator pages to parse
 MAX_VALIDATORS_PAGES = 50
@@ -55,7 +55,7 @@ VALIDATOR_MIN_BID = 200000
 # Path to base web page html contents
 BASE_HTML_PATH = "{}/harmony/robovalidator.html".format(HOME)
 
-BID_GAS_PRICE = 3
+BID_GAS_PRICE = 2
 
 REMAINING_BLOCKS_FOR_AUTO_DELEGATE = 1800
 

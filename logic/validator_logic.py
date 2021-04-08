@@ -40,8 +40,8 @@ def get_all_validators():
     my_validator = get_my_validator()
 
     while i < config.MAX_VALIDATORS_PAGES:
-        response = client.get_all_validators_info_page(i)
-        info_jsons = response['result']
+        response = client.get_all_validators_info_page(i) or {}
+        info_jsons = response.get('result') or []
         if not info_jsons:
             break
         for info_json in info_jsons:
@@ -102,7 +102,7 @@ def get_validator_add_key(validator):
 
 
 def get_validator_remove_key(validator):
-    if len(validator.bls_keys) == 1:
+    if len(validator.bls_keys) <= 1:
         return None, None
     removed_key = [key for key in config.BLS_KEYS if key in validator.bls_keys][-1]
     bls_keys = [key for key in validator.bls_keys if key != removed_key]

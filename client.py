@@ -1,13 +1,16 @@
-import config
 from subprocess import PIPE, Popen
+from time import sleep
+
 import simplejson
+
+import config
 
 
 class HarmonyClientError(Exception):
     pass
 
 
-def get_json_for_command(process_args):
+def get_json_for_command(process_args, retries=3):
     if config.USE_REMOTE_NODE:
         process_args.extend(["--node", config.NODE_API_URL])
     process = Popen(process_args, stdout=PIPE)
@@ -15,7 +18,11 @@ def get_json_for_command(process_args):
     try:
         return simplejson.loads(output)
     except simplejson.JSONDecodeError:
-        raise HarmonyClientError(output)
+        sleep(0.1)
+        print("Got an error in get_json_for_command({}), output={} err={} retrying..".format(process_args, output, err))
+        if retries > 0:
+            get_json_for_command(process_args, retries=retries - 1)
+        # raise HarmonyClientError(output)
 
 
 def get_validator_info(address):
@@ -35,7 +42,7 @@ def _get_base_edit_validator_process_args(gas_price=config.BID_GAS_PRICE):
             "--validator-addr", config.VALIDATOR_ADDR,
             "--passphrase-file", config.PASSPHRASE_PATH,
             "--bls-pubkeys-dir", config.BLS_ALL_KEYS_PATH,
-            "--true-nonce", "--gas-price", str(gas_price)]
+            "--gas-price", str(gas_price)]
 
 
 def remove_bls_key(bls_key, gas_price=config.BID_GAS_PRICE):

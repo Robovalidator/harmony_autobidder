@@ -41,7 +41,7 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
         next_slot_range = validator_logic.get_my_slot_range_for_validators(validators_lowering_bid, my_validator)
         response_json["slots_after_lowering_bid"] = str(next_slot_range)
 
-        if my_slot_range.end <= config.MIN_SLOT and next_slot_range.end <= config.MAX_SLOT and bidding_enabled:
+        if my_slot_range.end <= config.MIN_SLOT and next_slot_range.end < config.MAX_SLOT and bidding_enabled:
             response_json["action"] = u"Lowering the bid by adding key {}".format(key_to_add)
             response_json["added_bls_key"] = key_to_add
             changed_keys = True

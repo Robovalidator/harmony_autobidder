@@ -49,10 +49,10 @@ BLS_KEYS = (
 )
 
 # Maximum allowable slot
-MAX_SLOT = 620
+MAX_SLOT = 625
 
 # Minimum slot to shoot for as long as removing a key doesn't move us past the MAX_SLOT
-MIN_SLOT = 625
+MIN_SLOT = 630
 
 # Maximum validator pages to parse
 MAX_VALIDATORS_PAGES = 50

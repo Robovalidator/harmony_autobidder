@@ -5,7 +5,11 @@ from enums import EpochStats, TimeUnit
 def get_remaining_blocks_for_current_epoch():
     header_json = client.get_latest_header()
     result_json = header_json['result']
-    block_number = result_json['blockNumber']
+    if 'number' in result_json:
+        # New RPC response
+        block_number = int(result_json['number'], 16)
+    else:
+        block_number = result_json['blockNumber']
     current_epoch = result_json['epoch']
     block_number_end = get_block_number_for_epoch_end(current_epoch)
     return (block_number_end - block_number) + 1

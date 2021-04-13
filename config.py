@@ -53,7 +53,7 @@ BLS_KEYS = (
 )
 
 # Maximum allowable slot
-MAX_SLOT = 750
+MAX_SLOT = 780
 
 # Minimum slot to shoot for as long as removing a key doesn't move us past the MAX_SLOT
 MIN_SLOT = 780
@@ -62,12 +62,12 @@ MIN_SLOT = 780
 MAX_VALIDATORS_PAGES = 50
 
 # Ignore validators below the given bid
-VALIDATOR_MIN_BID = 200000
+VALIDATOR_MIN_BID = 100000
 
 # Path to base web page html contents
 BASE_HTML_PATH = "{}/harmony/robovalidator.html".format(HOME)
 
-BID_GAS_PRICE = 3
+BID_GAS_PRICE = 2
 
 REMAINING_BLOCKS_FOR_AUTO_DELEGATE = 1800
 

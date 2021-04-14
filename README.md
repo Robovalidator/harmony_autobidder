@@ -21,7 +21,8 @@ $ cd ~/harmony
 $ curl -LO https://harmony.one/hmycli && mv hmycli hmy && chmod +x hmy
 ```
 You don't have to use `~/harmony` but that's how the service is currently configured.
-See `config.py` if you'd like to modify the path setttings.
+See `config.py` if you'd like to modify the path settings. Also make sure `$HOME/harmony` is 
+in your system path.
 
 ### Create your passphrase.txt file
 ```
@@ -39,7 +40,7 @@ $ # Copy any other bls .key and .pass files from other nodes to ~/harmony/.hmy/a
 
 ### Setup config.py 
 1. If you are running a node on shard 0 on the same machine you can set
-`USE_REMOTE_NODE = False`
+`USE_REMOTE_NODE = False` otherwise you need to set it to `True` since a lot of RPCs we use only work on shard 0.
 2. Set `VALIDATOR_ADDR` to your validator's address
 3. Set `BLS_KEYS` to contain all your bls key string in order of highest priority. The keys will be added and removed as if this list was a stack.
 4. Configure `MAX_SLOT` and `MIN_SLOT` to your liking. Note that the `MIN_SLOT` config works as a guideline and the bot will never adjust the keys in a way that puts you below `MAX_SLOT`.

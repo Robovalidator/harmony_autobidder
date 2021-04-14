@@ -4,6 +4,7 @@ from time import sleep
 import simplejson
 
 import config
+from config import HMY_PATH
 
 
 class HarmonyClientError(Exception):
@@ -26,19 +27,19 @@ def get_json_for_command(process_args, retries=3):
 
 
 def get_validator_info(address):
-    return get_json_for_command(["hmy", "blockchain", "validator", "information", address])
+    return get_json_for_command([HMY_PATH, "blockchain", "validator", "information", address])
 
 
 def get_all_validators_info_page(page):
-    return get_json_for_command(["hmy", "blockchain", "validator", "all-information", str(page)])
+    return get_json_for_command([HMY_PATH, "blockchain", "validator", "all-information", str(page)])
 
 
 def get_latest_header():
-    return get_json_for_command(["hmy", "blockchain", "latest-header", "--node", "api.s0.t.hmny.io"])
+    return get_json_for_command([HMY_PATH, "blockchain", "latest-header", "--node", "api.s0.t.hmny.io"])
 
 
 def _get_base_edit_validator_process_args(gas_price=config.BID_GAS_PRICE):
-    return ["hmy", "staking", "edit-validator",
+    return [HMY_PATH, "staking", "edit-validator",
             "--validator-addr", config.VALIDATOR_ADDR,
             "--passphrase-file", config.PASSPHRASE_PATH,
             "--bls-pubkeys-dir", config.BLS_ALL_KEYS_PATH,

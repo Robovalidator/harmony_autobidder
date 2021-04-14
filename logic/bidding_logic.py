@@ -31,7 +31,6 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
     )
     if not bidding_enabled:
         response_json['interval_seconds'] = 0.5
-        return response_json
 
     changed_keys = False
 

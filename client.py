@@ -35,7 +35,7 @@ def get_all_validators_info_page(page):
 
 
 def get_latest_header():
-    return get_json_for_command([HMY_PATH, "blockchain", "latest-header", "--node", "api.s0.t.hmny.io"])
+    return get_json_for_command([HMY_PATH, "blockchain", "latest-header"])
 
 
 def _get_base_edit_validator_process_args(gas_price=config.BID_GAS_PRICE):

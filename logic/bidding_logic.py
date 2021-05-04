@@ -33,7 +33,7 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
     )
 
     if bidding_enabled and num_blocks_left <= config.BOTTOM_FEED_ENABLED_BLOCKS_LEFT:
-        min_slot, max_slot = config.NUM_SLOTS, config.NUM_SLOTS
+        min_slot = max_slot = config.NUM_SLOTS - config.BOTTOM_FEED_SLOT_DISTANCE
 
     if not bidding_enabled:
         response_json['interval_seconds'] = 0.5

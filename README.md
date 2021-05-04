@@ -8,9 +8,9 @@ for validator information regularly and decides to either remove or
 add bls keys to stay within a slot range. The polling interval
 starts slow and contracts as the end of the current epoch approaches.
 
-If you've benefited from using 
-this program please consider donating or delegating ONEs to RoboValidator at 
-https://staking.harmony.one/validators/one1x8fhymx4xsygy4dju9ea9vhs3vqg0u3ht0nz74. 
+If you've benefited from using this program please consider donating or delegating ONEs to RoboValidator at 
+https://staking.harmony.one/validators/mainnet/one1x8fhymx4xsygy4dju9ea9vhs3vqg0u3ht0nz74 so we can continue
+to improve this software.
 
 ## Setup
 ### Download the hmy client if you haven't already

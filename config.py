@@ -106,10 +106,10 @@ BLS_KEYS = (
 )
 
 # Maximum allowable slot
-MAX_SLOT = 300
+MAX_SLOT = 250
 
 # Minimum slot to shoot for as long as removing a key doesn't move us past the MAX_SLOT
-MIN_SLOT = 300
+MIN_SLOT = 250
 
 # Maximum validator pages to parse
 MAX_VALIDATORS_PAGES = 50
@@ -127,6 +127,11 @@ REMAINING_BLOCKS_FOR_AUTO_DELEGATE = 1800
 MIN_BLOCKS_REMAINING_FOR_BIDDING_ENABLED = 5
 MAX_BLOCKS_TO_DISABLE_BIDDING = 10000
 
+# Set this to greater than 0 if you want the bot to change the bid
+# at the last minute before epoch end
 BOTTOM_FEED_ENABLED_BLOCKS_LEFT = -100
 BOTTOM_FEED_SLOT_DISTANCE = 25
 NUM_SLOTS = 800
+
+EPOS_UPPER_BOUND = 1.15
+PREVENT_INEFFICIENT_BID = True

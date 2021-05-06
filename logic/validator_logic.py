@@ -1,3 +1,4 @@
+import math
 from time import sleep
 
 import client
@@ -62,6 +63,24 @@ def get_all_validators():
         validators = [my_validator if val.address == my_validator.address else val for val in validators]
 
     return validators
+
+
+def get_max_efficient_bid(validators):
+    median_slot = config.NUM_SLOTS / 2
+    median_slot_upper = median_slot + 1
+    median_bid = 0
+    median_bid_upper = 0
+    slot = 1
+    for validator in validators:
+        slot_range = SlotRange(slot, slot + validator.num_slots - 1)
+        if slot_range.start <= median_slot <= slot_range.end:
+            median_bid = validator.bid
+        if slot_range.start <= median_slot_upper <= slot_range.end:
+            median_bid_upper = validator.bid
+        if median_bid and median_bid_upper:
+            break
+        slot = slot_range.end + 1
+    return (median_bid + median_bid_upper) / 2.0 * config.EPOS_UPPER_BOUND
 
 
 def get_my_slot_range_for_validators(validators, my_validator):

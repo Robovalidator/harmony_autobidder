@@ -13,6 +13,7 @@ def get_response_as_html(response_json):
             response_json.get("slots_after_lowering_bid", "N/A")),
         u"<p>If we increase the bid by removing a key the slots will be: {}</p>\n".format(
             response_json.get("slots_after_increasing_bid", "N/A")),
+        f"<p>Max efficient bid: {response_json['debug'].get('max_efficient_bid') or 'Unknown'}",
         u"<p>Epoch progress: {} blocks left ({} hours)</p>\n".format(response_json["num_blocks_left"], hours),
         u"<table><tr><td>Slot(s)</td><td>Validator Name</td><td>Bid per slot</td><td>Uptime</td></tr>\n"
     ))
@@ -55,6 +56,7 @@ def get_response_as_text(response_json):
             response_json.get("slots_after_increasing_bid", "N/A")),
         u"Epoch progress: {} blocks left ({} hours)\n".format(response_json["num_blocks_left"], hours),
         u"Polling interval seconds: {}\n".format(response_json["interval_seconds"]),
+        u"Debug data: {}".format(response_json["debug"])
     ))
 
     removed_bls_key = response_json.get("removed_bls_key")

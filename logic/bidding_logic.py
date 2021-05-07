@@ -14,14 +14,14 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
     VALIDATOR_LENGTHS.append(len(validators))
     if len(VALIDATOR_LENGTHS) > MAX_VALIDATOR_LENGTHS:
         VALIDATOR_LENGTHS.pop(0)
-    avg_length = sum(VALIDATOR_LENGTHS) / (1.0 * len(VALIDATOR_LENGTHS))
-    print("Average # of validators: {}".format(avg_length))
-    bidding_enabled = len(validators) >= (avg_length - 3) and bidding_enabled
+    avg_validators_length = sum(VALIDATOR_LENGTHS) / (1.0 * len(VALIDATOR_LENGTHS))
+    bidding_enabled = len(validators) >= (avg_validators_length - 3) and bidding_enabled
     min_slot, max_slot = config.MIN_SLOT, config.MAX_SLOT
 
     my_validator = validator_logic.get_my_validator()
     my_slot_range = validator_logic.get_my_slot_range_for_validators(validators, my_validator)
     num_blocks_left = epoch_logic.get_remaining_blocks_for_current_epoch()
+    debug_json = {}
     response_json = dict(
         action=None,
         slots=str(my_slot_range),
@@ -29,8 +29,12 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
         validators=[v.to_dict() for v in validators],
         num_blocks_left=num_blocks_left,
         num_seconds_left=epoch_logic.get_remaining_seconds_for_current_epoch(),
-        interval_seconds=epoch_logic.get_interval_seconds()
+        interval_seconds=epoch_logic.get_interval_seconds(),
+        debug=debug_json
     )
+    max_efficient_bid = validator_logic.get_max_efficient_bid(validators)
+    debug_json['avg_num_validators'] = avg_validators_length
+    debug_json['max_efficient_bid'] = max_efficient_bid
 
     if bidding_enabled and num_blocks_left <= config.BOTTOM_FEED_ENABLED_BLOCKS_LEFT:
         min_slot = max_slot = config.NUM_SLOTS - config.BOTTOM_FEED_SLOT_DISTANCE
@@ -62,14 +66,25 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
         next_slot_range = validator_logic.get_my_slot_range_for_validators(validators_increasing_bid,
                                                                            my_validator)
         response_json["slots_after_increasing_bid"] = str(next_slot_range)
-        if my_slot_range.end >= max_slot and bidding_enabled and not response_json.get("action"):
-            response_json["action"] = u"Increasing the bid by removing key {}".format(key_to_remove)
-            client.remove_bls_key(key_to_remove)
-            response_json["removed_bls_key"] = key_to_remove
-            changed_keys = True
-            validators = validator_logic.get_all_validators()
-            my_slot_range = validator_logic.get_my_slot_range_for_validators(validators, my_validator)
-            response_json["new_slots"] = str(my_slot_range)
+        if (
+            my_slot_range.end >= max_slot and bidding_enabled and not response_json.get("action")
+        ):
+            prevent_bid_due_to_inefficient = False
+            if (
+                    validator_increase_bid.bid > max_efficient_bid and next_slot_range.end <= config.NUM_SLOTS
+                    and config.PREVENT_INEFFICIENT_BID
+            ):
+                prevent_bid_due_to_inefficient = True
+                debug_json['prevent_bid_due_to_inefficient'] = prevent_bid_due_to_inefficient
+
+            if not prevent_bid_due_to_inefficient:
+                response_json["action"] = u"Increasing the bid by removing key {}".format(key_to_remove)
+                client.remove_bls_key(key_to_remove)
+                response_json["removed_bls_key"] = key_to_remove
+                changed_keys = True
+                validators = validator_logic.get_all_validators()
+                my_slot_range = validator_logic.get_my_slot_range_for_validators(validators, my_validator)
+                response_json["new_slots"] = str(my_slot_range)
 
     if changed_keys:
         response_json['interval_seconds'] = 1

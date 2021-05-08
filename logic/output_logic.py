@@ -56,7 +56,7 @@ def get_response_as_text(response_json):
             response_json.get("slots_after_increasing_bid", "N/A")),
         u"Epoch progress: {} blocks left ({} hours)\n".format(response_json["num_blocks_left"], hours),
         u"Polling interval seconds: {}\n".format(response_json["interval_seconds"]),
-        u"Debug data: {}".format(response_json["debug"])
+        u"Debug data: {}\n".format(response_json["debug"])
     ))
 
     removed_bls_key = response_json.get("removed_bls_key")

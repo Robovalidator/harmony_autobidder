@@ -32,9 +32,8 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
         interval_seconds=epoch_logic.get_interval_seconds(),
         debug=debug_json
     )
-    max_efficient_bid = validator_logic.get_max_efficient_bid(validators)
     debug_json['avg_num_validators'] = avg_validators_length
-    debug_json['max_efficient_bid'] = max_efficient_bid
+    debug_json['max_efficient_bid'] = max_efficient_bid = validator_logic.get_max_efficient_bid(validators)
 
     if bidding_enabled and num_blocks_left <= config.BOTTOM_FEED_ENABLED_BLOCKS_LEFT:
         min_slot = max_slot = config.NUM_SLOTS - config.BOTTOM_FEED_SLOT_DISTANCE
@@ -50,7 +49,19 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
         next_slot_range = validator_logic.get_my_slot_range_for_validators(validators_lowering_bid, my_validator)
         response_json["slots_after_lowering_bid"] = str(next_slot_range)
 
-        if my_slot_range.end <= min_slot and next_slot_range.end < max_slot and bidding_enabled:
+        force_remove_due_to_inefficient = False
+        max_efficient_bid_after_decrease = validator_logic.get_max_efficient_bid(validators_lowering_bid)
+        if (
+                validator_lower_bid.bid > max_efficient_bid_after_decrease
+                and next_slot_range.end <= config.NUM_SLOTS
+                and config.PREVENT_INEFFICIENT_BID
+        ):
+            debug_json['force_remove_due_to_inefficient'] = force_remove_due_to_inefficient = True
+
+        if (
+                ((my_slot_range.end <= min_slot and next_slot_range.end < max_slot) or force_remove_due_to_inefficient)
+                and bidding_enabled
+        ):
             response_json["action"] = u"Lowering the bid by adding key {}".format(key_to_add)
             response_json["added_bls_key"] = key_to_add
             changed_keys = True
@@ -69,9 +80,11 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
         if (
             my_slot_range.end >= max_slot and bidding_enabled and not response_json.get("action")
         ):
+            # Max efficient bid calculation must be re-done with a scenario where we remove a key
+            max_efficient_bid_after_increase = validator_logic.get_max_efficient_bid(validators_increasing_bid)
             prevent_bid_due_to_inefficient = False
             if (
-                    validator_increase_bid.bid > max_efficient_bid and next_slot_range.end <= config.NUM_SLOTS
+                    validator_increase_bid.bid > max_efficient_bid_after_increase
                     and config.PREVENT_INEFFICIENT_BID
             ):
                 prevent_bid_due_to_inefficient = True

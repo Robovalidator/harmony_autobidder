@@ -50,9 +50,8 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
         response_json["slots_after_lowering_bid"] = str(next_slot_range)
 
         force_remove_due_to_inefficient = False
-        max_efficient_bid_after_decrease = validator_logic.get_max_efficient_bid(validators_lowering_bid)
         if (
-                validator_lower_bid.bid > max_efficient_bid_after_decrease
+                my_validator.bid > max_efficient_bid
                 and next_slot_range.end <= config.NUM_SLOTS
                 and config.PREVENT_INEFFICIENT_BID
         ):

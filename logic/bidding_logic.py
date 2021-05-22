@@ -16,7 +16,7 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
         VALIDATOR_LENGTHS.pop(0)
     avg_validators_length = sum(VALIDATOR_LENGTHS) / (1.0 * len(VALIDATOR_LENGTHS))
     bidding_enabled = len(validators) >= (avg_validators_length - 3) and bidding_enabled
-    min_slot, max_slot = config.MIN_SLOT, config.MAX_SLOT
+    target_slot = config.TARGET_SLOT
 
     my_validator = validator_logic.get_my_validator()
     my_slot_range = validator_logic.get_my_slot_range_for_validators(validators, my_validator)
@@ -36,7 +36,7 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
     debug_json['max_efficient_bid'] = max_efficient_bid = validator_logic.get_max_efficient_bid(validators)
 
     if bidding_enabled and num_blocks_left <= config.BOTTOM_FEED_ENABLED_BLOCKS_LEFT:
-        min_slot = max_slot = config.NUM_SLOTS - config.BOTTOM_FEED_SLOT_DISTANCE
+        target_slot = config.NUM_SLOTS - config.BOTTOM_FEED_SLOT_DISTANCE
 
     if not bidding_enabled:
         response_json['interval_seconds'] = 0.5
@@ -58,7 +58,8 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
             debug_json['force_remove_due_to_inefficient'] = force_remove_due_to_inefficient = True
 
         if (
-                ((my_slot_range.end <= min_slot and next_slot_range.end < max_slot) or force_remove_due_to_inefficient)
+                ((my_slot_range.end <= target_slot and next_slot_range.end < target_slot)
+                 or force_remove_due_to_inefficient)
                 and bidding_enabled
         ):
             response_json["action"] = u"Lowering the bid by adding key {}".format(key_to_add)
@@ -77,7 +78,7 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
                                                                            my_validator)
         response_json["slots_after_increasing_bid"] = str(next_slot_range)
         if (
-            my_slot_range.end >= max_slot and bidding_enabled and not response_json.get("action")
+            my_slot_range.end >= target_slot and bidding_enabled and not response_json.get("action")
         ):
             # Max efficient bid calculation must be re-done with a scenario where we remove a key
             max_efficient_bid_after_increase = validator_logic.get_max_efficient_bid(validators_increasing_bid)

@@ -16,7 +16,7 @@ def main(main_args):
     if main_args.html:
         html_file = open(config.BASE_HTML_PATH, "r")
         html = html_file.read()
-        html = html % (config.MIN_SLOT, config.MAX_SLOT)
+        html = html % config.TARGET_SLOT
         print(html)
 
     i = 0

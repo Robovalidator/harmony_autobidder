@@ -1,9 +1,18 @@
+from time import sleep
+
 import client
 from enums import EpochStats, TimeUnit
 
 
-def get_remaining_blocks_for_current_epoch():
+def get_remaining_blocks_for_current_epoch(retries=10):
+    if retries == 0:
+        # Just return a number so we can continue
+        return 32767
     header_json = client.get_latest_header()
+    if not header_json:
+        sleep(1.0)
+        print("Warning: Got an empty response from client.get_latest_header()")
+        return get_remaining_blocks_for_current_epoch(retries=retries-1)
     result_json = header_json['result']
     if 'number' in result_json:
         # New RPC response

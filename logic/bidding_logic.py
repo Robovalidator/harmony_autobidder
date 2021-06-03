@@ -86,6 +86,7 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
             if (
                     validator_increase_bid.bid > max_efficient_bid_after_increase
                     and config.PREVENT_INEFFICIENT_BID
+                    and my_slot_range.end <= config.NUM_SLOTS
             ):
                 prevent_bid_due_to_inefficient = True
                 debug_json['prevent_bid_due_to_inefficient'] = prevent_bid_due_to_inefficient

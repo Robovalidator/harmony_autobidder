@@ -138,9 +138,6 @@ BID_GAS_PRICE = 2
 
 REMAINING_BLOCKS_FOR_AUTO_DELEGATE = 1800
 
-MIN_BLOCKS_REMAINING_FOR_BIDDING_ENABLED = 5
-MAX_BLOCKS_TO_DISABLE_BIDDING = 10000
-
 # Set this to greater than 0 if you want the bot to change the bid
 # at the last minute before epoch end
 BOTTOM_FEED_ENABLED_BLOCKS_LEFT = -100

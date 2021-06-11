@@ -63,9 +63,12 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
                 and bidding_enabled
         ):
             response_json["action"] = u"Lowering the bid by adding key {}".format(key_to_add)
-            response_json["added_bls_key"] = key_to_add
-            changed_keys = True
-            client.add_bls_key(key_to_add)
+            response = client.add_bls_key(key_to_add)
+            if response is not None:
+                changed_keys = True
+                response_json["added_bls_key"] = key_to_add
+            else:
+                response_json['interval_seconds'] = 1
             validators = validator_logic.get_all_validators()
             my_slot_range = validator_logic.get_my_slot_range_for_validators(validators, my_validator)
             response_json["new_slots"] = str(my_slot_range)
@@ -93,9 +96,12 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
 
             if not prevent_bid_due_to_inefficient:
                 response_json["action"] = u"Increasing the bid by removing key {}".format(key_to_remove)
-                client.remove_bls_key(key_to_remove)
-                response_json["removed_bls_key"] = key_to_remove
-                changed_keys = True
+                response = client.remove_bls_key(key_to_remove)
+                if response is not None:
+                    response_json["removed_bls_key"] = key_to_remove
+                    changed_keys = True
+                else:
+                    response_json['interval_seconds'] = 1
                 validators = validator_logic.get_all_validators()
                 my_slot_range = validator_logic.get_my_slot_range_for_validators(validators, my_validator)
                 response_json["new_slots"] = str(my_slot_range)

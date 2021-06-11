@@ -7,7 +7,7 @@ from enums import EpochStats, TimeUnit
 def get_remaining_blocks_for_current_epoch(retries=10):
     if retries == 0:
         # Just return a number so we can continue
-        return 32767
+        return 10
     header_json = client.get_latest_header()
     if not header_json:
         sleep(1.0)
@@ -40,6 +40,9 @@ def get_interval_seconds():
 
     if remaining_seconds < TimeUnit.Minute * 2:
         return 3
+
+    if remaining_seconds < TimeUnit.Minute * 5:
+        return 5
 
     if remaining_seconds < TimeUnit.Minute * 10:
         return 10

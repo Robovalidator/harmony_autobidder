@@ -46,6 +46,7 @@ def get_response_as_text(response_json):
     hours = round(response_json["num_seconds_left"] / (TimeUnit.Hour * 1.0), 2)
     text += u"".join((
         u"Name: {}\n".format(validator.name),
+        u"Target slot: {}\n".format(config.TARGET_SLOT),
         u"Current slots: {}\n".format(response_json["slots"]),
         u"Current epoch uptime: {}\n".format(validator.uptime_as_pct),
         u"Current bid: {}\n".format(validator.bid),

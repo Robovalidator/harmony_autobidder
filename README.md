@@ -71,7 +71,6 @@ Name: RoboValidator.com
 Current slots: 301-302
 Current epoch uptime: 98.86814%
 Current bid: 5506999
-BLS keys: f82d30adadabaaaeba00406a5d607134343888dccf4fc45bdc22f02ad10df3ddeed1656a2a253262dae92095297e3f84, 710366b83f9d120a763f2e68c994e10033940ddf7ec0eeefef3d4c990dd5d45f4c7d7ccc7ca67d99f0e40c354e539e00
 If we lower the bid by adding key the slots will be: 366-368
 If we increase the bid by removing a key the slots will be: 28
 ....

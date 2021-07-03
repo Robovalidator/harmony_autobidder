@@ -107,8 +107,7 @@ def remove_keys_not_in_config(validator):
     keys = get_keys_not_in_config(validator)
     for key in keys:
         print(f"Removing BLS key {key} since it was not found in the config.")
-        response = client.remove_bls_key(key)
-        print(response)
+        client.remove_bls_key(key)
     return keys
 
 

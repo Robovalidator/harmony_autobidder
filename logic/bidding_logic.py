@@ -10,6 +10,7 @@ VALIDATOR_LENGTHS = []
 MAX_VALIDATOR_LENGTHS = 20
 
 def get_validators_and_bid_if_necessary(bidding_enabled=False):
+    debug_json = {}
     my_validator = validator_logic.get_my_validator()
     if bidding_enabled:
         # Remove existing keys from the validator not found in the config.
@@ -29,7 +30,6 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
 
     my_slot_range = validator_logic.get_my_slot_range_for_validators(validators, my_validator)
     num_blocks_left = epoch_logic.get_remaining_blocks_for_current_epoch()
-    debug_json = {}
     response_json = dict(
         action=None,
         slots=str(my_slot_range),

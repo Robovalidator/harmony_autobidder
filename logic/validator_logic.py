@@ -103,6 +103,19 @@ def get_my_slot_range_for_validators(validators, my_validator):
     return my_slot_range
 
 
+def remove_keys_not_in_config(validator):
+    keys = get_keys_not_in_config(validator)
+    for key in keys:
+        print(f"Removing BLS key {key} since it was not found in the config.")
+        client.remove_bls_key(key)
+    return keys
+
+
+def get_keys_not_in_config(validator):
+    """Return keys assigned to the validator that aren't in the configuration."""
+    return [key for key in validator.bls_keys if key not in config.BLS_KEYS]
+
+
 def get_missing_key(validator):
     missing_keys = [key for key in config.BLS_KEYS if key not in validator.bls_keys]
     if missing_keys:

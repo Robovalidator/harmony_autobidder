@@ -12,6 +12,7 @@ class HarmonyClientError(Exception):
 
 
 def get_json_for_command(process_args, retries=3, retry_wait=0.1):
+    original_process_args = process_args[:]
     if config.USE_REMOTE_NODE:
         process_args.extend(["--node", config.NODE_API_URL])
     process = Popen(process_args, stdout=PIPE)
@@ -23,7 +24,7 @@ def get_json_for_command(process_args, retries=3, retry_wait=0.1):
         print(f"Got an error in get_json_for_command({' '.join(process_args)}), output={output}, err={err}, "
               f"retrying after {retry_wait}s")
         if retries > 0:
-            return get_json_for_command(process_args, retries=retries - 1, retry_wait=retry_wait * 1.25)
+            return get_json_for_command(original_process_args, retries=retries - 1, retry_wait=retry_wait * 1.25)
         return None
         # raise HarmonyClientError(output)
 

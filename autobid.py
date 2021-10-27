@@ -37,7 +37,11 @@ def main(main_args):
                     tb = traceback.format_tb(ex_tb, 100)
                     print(u"Got an error! {}\n Traceback: {}".format(repr(ex),
                                                                      "\n".join(tb)))
-            interval = response_json.get("interval_seconds") or epoch_logic.get_interval_seconds()
+            try:
+                interval = response_json.get("interval_seconds") or epoch_logic.get_interval_seconds()
+            except Exception as e:
+                interval = config.DEFAULT_INTERVAL_SECONDS
+                print(f"Unable to get interval due to {e}. Using {interval}s instead.")
             sleep(interval)
             if not main_args.html and not main_args.json:
                 print(u".", end=u"")

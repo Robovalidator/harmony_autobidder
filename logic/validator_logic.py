@@ -47,7 +47,7 @@ def get_all_validators():
             break
         for info_json in info_jsons:
             perf = get_uptime(info_json)
-            inactive = info_json['active-status'] == ActiveStatus.Inactive
+            inactive = info_json['active-status'] == ActiveStatus.Inactive.value
             eligible = info_json['epos-status'] == EposStatus.EligibleElected.value
             validator = extract_validator(info_json)
             if (validator.address == my_validator.address

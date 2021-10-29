@@ -4,6 +4,11 @@ from enum import Enum
 
 class BootedStatus(Enum):
     Inactive = 'manually turned inactive or insufficient uptime'
+    LostEposAuction = 'lost epos auction'
+
+class ActiveStatus(Enum):
+    active = 'active'
+    Inactive = 'inactive'
 
 
 class EposStatus(Enum):

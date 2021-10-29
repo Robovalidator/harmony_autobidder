@@ -25,8 +25,7 @@ def get_json_for_command(process_args, retries=3, retry_wait=0.1):
               f"retrying after {retry_wait}s")
         if retries > 0:
             return get_json_for_command(original_process_args, retries=retries - 1, retry_wait=retry_wait * 1.25)
-        return None
-        # raise HarmonyClientError(output)
+    return None
 
 
 def get_validator_info(address):

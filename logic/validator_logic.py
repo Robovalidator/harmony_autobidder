@@ -1,7 +1,10 @@
-import math
-from time import sleep
+from __future__ import annotations
 
+import math
 from collections import defaultdict
+from time import sleep
+from typing import Tuple
+
 import client
 from enums import ActiveStatus, BootedStatus, EposStatus, OneUnit, Uptime
 from models import SlotRange, Validator
@@ -61,11 +64,11 @@ def get_all_validators():
 
     if my_validator:
         validators = [my_validator if val.address == my_validator.address else val for val in validators]
-
+    validators.sort(key = lambda v: v.bid, reverse=True)
     return validators
 
 
-def get_max_efficient_bid(validators):
+def get_min_max_efficient_bid(validators: List[Validator]) -> Tuple[int, int]:
     median_slot = config.NUM_SLOTS / 2
     median_slot_upper = median_slot + 1
     median_bid = 0
@@ -80,7 +83,8 @@ def get_max_efficient_bid(validators):
         if median_bid and median_bid_upper:
             break
         slot = slot_range.end + 1
-    return (median_bid + median_bid_upper) / 2.0 * config.EPOS_UPPER_BOUND
+    true_median_bid = (median_bid + median_bid_upper) / 2.0
+    return true_median_bid * config.EPOS_LOWER_BOUND, true_median_bid * config.EPOS_UPPER_BOUND
 
 
 def get_my_slot_range_for_validators(validators, my_validator):

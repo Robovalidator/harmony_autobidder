@@ -1,6 +1,7 @@
 import math
 from time import sleep
 
+from collections import defaultdict
 import client
 from enums import ActiveStatus, BootedStatus, EposStatus, OneUnit, Uptime
 from models import SlotRange, Validator
@@ -39,7 +40,6 @@ def get_all_validators():
     existing_addresses = set()
     # my validator may be more up to date
     my_validator = get_my_validator()
-
     while i < config.MAX_VALIDATORS_PAGES:
         response = client.get_all_validators_info_page(i) or {}
         info_jsons = response.get('result') or []

@@ -2,7 +2,7 @@ import time
 from time import sleep
 
 import client
-from logic import epoch_logic, validator_logic
+from logic import epoch_logic, validator_logic, shard_logic
 
 import config
 
@@ -21,6 +21,7 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
             debug_json['keys_not_in_config_removed'] = removed_keys
 
     validators = validator_logic.get_all_validators()
+    shard_staking_amounts = shard_logic.get_shard_staking_amounts(validators)
     VALIDATOR_LENGTHS.append(len(validators))
     if len(VALIDATOR_LENGTHS) > MAX_VALIDATOR_LENGTHS:
         VALIDATOR_LENGTHS.pop(0)
@@ -42,6 +43,7 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
     )
     debug_json['avg_num_validators'] = avg_validators_length
     debug_json['max_efficient_bid'] = max_efficient_bid = validator_logic.get_max_efficient_bid(validators)
+    debug_json['shard_staking_amounts'] = shard_staking_amounts
 
     if bidding_enabled and num_blocks_left <= config.BOTTOM_FEED_ENABLED_BLOCKS_LEFT:
         target_slot = config.NUM_SLOTS - config.BOTTOM_FEED_SLOT_DISTANCE

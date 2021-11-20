@@ -6,17 +6,19 @@ from enums import TimeUnit
 def get_response_as_html(response_json):
     validator = Validator.from_dict(response_json["validator"])
     hours = round(response_json["num_seconds_left"] / (TimeUnit.Hour * 1.0), 2)
-    html = u"".join((
-        u"<p>Current slots: {}</p>\n".format(response_json["slots"]),
-        u"<p>Current epoch uptime: {}</p>\n".format(validator.uptime_as_pct),
-        u"<p>If we lower the bid by adding key the slots will be: {}</p>\n".format(
-            response_json.get("slots_after_lowering_bid", "N/A")),
-        u"<p>If we increase the bid by removing a key the slots will be: {}</p>\n".format(
-            response_json.get("slots_after_increasing_bid", "N/A")),
+    shard_staking_amounts = response_json['debug'].get('shard_staking_amounts')
+    html = u"".join([
+        f"<p>Current slots: {response_json['slots']}</p>\n",
+        f"<p>Current epoch uptime: {validator.uptime_as_pct}</p>\n",
+        f"<p>If we lower the bid by adding key the slots will be: {response_json.get('slots_after_lowering_bid', 'N/A')}</p>\n",
+        f"<p>If we increase the bid by removing a key the slots will be: {response_json.get('slots_after_increasing_bid', 'N/A')}</p>\n",
         f"<p>Max efficient bid: {response_json['debug'].get('max_efficient_bid') or 'Unknown'}",
-        u"<p>Epoch progress: {} blocks left ({} hours)</p>\n".format(response_json["num_blocks_left"], hours),
+        f"<p>Epoch progress: {response_json['num_blocks_left']} blocks left ({hours} hours)</p>\n",
+    ] + [
+        f"<p>Shard {shard} staking amount: {round(amount * 100, 4) }% </p>" for shard, amount in sorted(shard_staking_amounts.items())
+    ] + [
         u"<table><tr><td>Slot(s)</td><td>Validator Name</td><td>Bid per slot</td><td>Uptime</td></tr>\n"
-    ))
+    ])
 
     slot = 1
     for validator_json in response_json["validators"]:
@@ -44,7 +46,9 @@ def get_response_as_text(response_json):
 
     validator = Validator.from_dict(response_json["validator"])
     hours = round(response_json["num_seconds_left"] / (TimeUnit.Hour * 1.0), 2)
-    text += u"".join((
+    shard_staking_amounts = response_json['debug'].pop('shard_staking_amounts', {})
+
+    text += u"".join([
         u"Name: {}\n".format(validator.name),
         u"Target slot: {}\n".format(config.TARGET_SLOT),
         u"Current slots: {}\n".format(response_json["slots"]),
@@ -58,7 +62,10 @@ def get_response_as_text(response_json):
         u"Epoch progress: {} blocks left ({} hours)\n".format(response_json["num_blocks_left"], hours),
         u"Polling interval seconds: {}\n".format(response_json["interval_seconds"]),
         u"Debug data: {}\n".format(response_json["debug"])
-    ))
+    ] + [
+        f"Shard {shard} staking amount: {round(amount * 100, 4) }% \n"
+        for shard, amount in sorted(shard_staking_amounts.items())
+    ])
 
     removed_bls_key = response_json.get("removed_bls_key")
     if removed_bls_key:

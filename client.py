@@ -51,8 +51,7 @@ def _get_base_edit_validator_process_args(gas_price=config.BID_GAS_PRICE):
 def remove_bls_key(bls_key, gas_price=config.BID_GAS_PRICE):
     base_process_args = _get_base_edit_validator_process_args(gas_price=gas_price)
     return get_json_for_command(
-        base_process_args + ["--remove-bls-key", bls_key, "--timeout", str(config.CHANGE_KEY_TIMEOUT_SECONDS),
-                             "--true-nonce"],
+        base_process_args + ["--remove-bls-key", bls_key, "--timeout", str(config.CHANGE_KEY_TIMEOUT_SECONDS)],
         retries=0
     )
 
@@ -60,7 +59,6 @@ def remove_bls_key(bls_key, gas_price=config.BID_GAS_PRICE):
 def add_bls_key(bls_key, gas_price=config.BID_GAS_PRICE):
     base_process_args = _get_base_edit_validator_process_args(gas_price=gas_price)
     return get_json_for_command(
-        base_process_args + ["--add-bls-key", bls_key, "--timeout", str(config.CHANGE_KEY_TIMEOUT_SECONDS),
-                             "--true-nonce"],
+        base_process_args + ["--add-bls-key", bls_key, "--timeout", str(config.CHANGE_KEY_TIMEOUT_SECONDS)],
         retries=0
     )

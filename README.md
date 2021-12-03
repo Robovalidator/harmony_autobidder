@@ -42,11 +42,26 @@ $ # Copy any other bls .key and .pass files from other nodes to ~/harmony/.hmy/a
 1. If you are running a node on shard 0 on the same machine you can set
 `USE_REMOTE_NODE = False` otherwise you need to set it to `True` since a lot of RPCs we use only work on shard 0.
 2. Set `VALIDATOR_ADDR` to your validator's address
-3. Set `BLS_KEYS` to contain all your bls key string in order of highest priority. The keys will be added and removed as if this list was a stack.
 4. Configure `TARGET_SLOT` to your liking. The bot will try to adjust the keys in a way that puts you just at or above `TARGET_SLOT`.
 5. If `PREVENT_INEFFICIENT_BID` is set to True the bot will try it's hardest to never overbid while keeping you elected.   
 6. `MAX_VALIDATORS_PAGES` is the maximum number of validator pages the client can scan for downloading validator info
 7. You still need to make sure your nodes are setup to run with all the BLS keys assigned to the validator between epoch changes
+
+### Update bls_keys.py
+1. Update `BLS_KEYS` to contain all your bls key string in order of highest priority. The keys will be added and removed as if this list was a stack.
+```
+BLS_KEYS = (
+    "f82d30adadabaaaeba00406a5d607134343888dccf4fc45bdc22f02ad10df3ddeed1656a2a253262dae92095297e3f84", 
+    "8be0121e5282071287886b07af678eefb67737f12d306c370f588d2612bf3020f9dc97fce63ee86c0ee3cd2153e43f90", 
+    "2bcee590cb191a7bff14641fb0afdd6e07ee83b45e7247fce9dcf0fc10d8c7c3560dad54891cdf8bffff36e4a2c24f04", 
+    "1c1d7ca4562ddda2cb456a766f86f487ff30bf2d3cbb692f359a29438b04cb6b79daf9241c44b514893076a14bea9984",  
+)
+```
+2. The bls_keys.py file was separated out in order to avoid merge conflicts. If you want to do development 
+you can run the following command so git will not track changes to the file.
+```
+git update-index --skip-worktree bls_keys.py
+```
 
 ### Create a tmux session
 ```

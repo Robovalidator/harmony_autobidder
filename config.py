@@ -26,9 +26,6 @@ TARGET_SLOT = 400
 # Maximum validator pages to parse
 MAX_VALIDATORS_PAGES = 10
 
-# Ignore validators below the given bid
-VALIDATOR_MIN_BID = 100000
-
 # Path to base web page html contents
 BASE_HTML_PATH = "{}/harmony/robovalidator.html".format(HOME)
 
@@ -43,6 +40,7 @@ REMAINING_BLOCKS_FOR_AUTO_DELEGATE = 1800
 BOTTOM_FEED_ENABLED_BLOCKS_LEFT = -100
 BOTTOM_FEED_SLOT_DISTANCE = 25
 NUM_SLOTS = 900
+NUM_SLOTS_TO_SHOW = 910
 
 EPOS_UPPER_BOUND = 1.35
 EPOS_LOWER_BOUND = 0.65

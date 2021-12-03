@@ -57,15 +57,23 @@ def get_all_validators():
                     or (not inactive or eligible) and perf >= Uptime.RequiredThreshold):
                 if validator.address in existing_addresses:
                     continue
-                if validator.bid >= config.VALIDATOR_MIN_BID:
-                    validators.append(validator)
-                    existing_addresses.add(validator.address)
+                validators.append(validator)
+                existing_addresses.add(validator.address)
         i += 1
 
     if my_validator:
         validators = [my_validator if val.address == my_validator.address else val for val in validators]
     validators.sort(key = lambda v: v.bid, reverse=True)
-    return validators
+
+    # Prune validators outside of range
+    num_slots = 0
+    pruned_validators = []
+    for validator in validators:
+        pruned_validators.append(validator)
+        num_slots += len(validator.bls_keys)
+        if num_slots >= config.NUM_SLOTS_TO_SHOW:
+            break
+    return pruned_validators
 
 
 def get_min_max_efficient_bid(validators: List[Validator]) -> Tuple[int, int]:

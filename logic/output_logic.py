@@ -52,6 +52,7 @@ def get_response_as_text(response_json):
         u"Name: {}\n".format(validator.name),
         u"Target slot: {}\n".format(config.TARGET_SLOT),
         u"Current slots: {}\n".format(response_json["slots"]),
+        u"Available Keys: {}\n".format(len(config.BLS_KEYS)),
         u"Current epoch uptime: {}\n".format(validator.uptime_as_pct),
         u"Current bid: {}\n".format(validator.bid),
         # u"BLS keys: {}\n".format(u", ".join(validator.bls_keys)),

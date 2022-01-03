@@ -21,7 +21,7 @@ PASSPHRASE_PATH = "{}/harmony/passphrase.txt".format(HOME)
 BLS_ALL_KEYS_PATH = "{}/harmony/.hmy/allkeys".format(HOME)
 
 # The slot to target
-TARGET_SLOT = 400
+TARGET_SLOT = 450
 
 # Maximum validator pages to parse
 MAX_VALIDATORS_PAGES = 10
@@ -29,7 +29,7 @@ MAX_VALIDATORS_PAGES = 10
 # Path to base web page html contents
 BASE_HTML_PATH = "{}/harmony/robovalidator.html".format(HOME)
 
-BID_GAS_PRICE = 1
+BID_GAS_PRICE = 30
 
 CHANGE_KEY_TIMEOUT_SECONDS = 10
 

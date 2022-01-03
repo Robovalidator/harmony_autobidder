@@ -36,10 +36,10 @@ def get_remaining_seconds_for_current_epoch():
 def get_interval_seconds():
     remaining_seconds = get_remaining_seconds_for_current_epoch()
     if remaining_seconds < TimeUnit.Minute:
-        return 5
+        return 2
 
     if remaining_seconds < TimeUnit.Minute * 2:
-        return 10
+        return 5
 
     if remaining_seconds < TimeUnit.Minute * 5:
         return 20

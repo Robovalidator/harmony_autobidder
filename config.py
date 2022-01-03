@@ -7,7 +7,7 @@ NODE_API_URL = "https://api.s0.t.hmny.io"
 USE_REMOTE_NODE = True
 
 # Put your own validator address below
-VALIDATOR_ADDR = "one1x8fhymx4xsygy4dju9ea9vhs3vqg0u3ht0nz74"
+VALIDATOR_ADDR = "one1v0n7nw6c4fe88xnuasr0d65luult0fvclvvxmf"
 
 # Path to harmony CLI
 HMY_PATH = "{}/harmony/hmy".format(HOME)
@@ -21,7 +21,7 @@ PASSPHRASE_PATH = "{}/harmony/passphrase.txt".format(HOME)
 BLS_ALL_KEYS_PATH = "{}/harmony/.hmy/allkeys".format(HOME)
 
 # The slot to target
-TARGET_SLOT = 450
+TARGET_SLOT = 699
 
 # Maximum validator pages to parse
 MAX_VALIDATORS_PAGES = 10

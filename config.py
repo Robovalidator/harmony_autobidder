@@ -29,7 +29,7 @@ MAX_VALIDATORS_PAGES = 10
 # Path to base web page html contents
 BASE_HTML_PATH = "{}/harmony/robovalidator.html".format(HOME)
 
-BID_GAS_PRICE = 1
+BID_GAS_PRICE = 30
 
 CHANGE_KEY_TIMEOUT_SECONDS = 10
 

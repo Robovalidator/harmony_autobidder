@@ -1,12 +1,11 @@
 import argparse
 import csv
-import json
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 import requests
 from enums import OneUnit
-
-import config
+from simplejson.errors import JSONDecodeError
+from retry import retry
 
 JSONRPC_ENDPOINT = "https://rpc.s0.t.hmny.io"
 
@@ -30,6 +29,8 @@ def write_csv(address, csv_file, start_page, end_page):
     csv_file.close()
     print("Generated bitcoin.tax file {}".format(csv_file.name))
 
+
+@retry(JSONDecodeError, delay=1, tries=100)
 def get_transaction_history(address, page_index=0):
     params = [
         {
@@ -69,6 +70,7 @@ def get_transaction_history(address, page_index=0):
     return rows
 
 
+@retry(JSONDecodeError, delay=1, tries=100)
 def get_transaction_receipt(hash):
     params = [hash]
 
@@ -91,7 +93,7 @@ def get_command_line_options():
     parser = argparse.ArgumentParser(description="Query staking taxes and output them to a Bitcoin.tax "
                                                  "CSV file.\n\n" + usage())
     parser.add_argument(
-        '-a', '--address', help='address', type=str
+        '-a', '--address', help='address', type=str, required=True
     )
     parser.add_argument('-f', '--file', help='csv outputfile', type=argparse.FileType(mode='w'), default='staking_taxes.csv')
     parser.add_argument('-s', '--start_page', help='starting page index', type=int, default=0)

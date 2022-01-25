@@ -21,7 +21,7 @@ PASSPHRASE_PATH = "{}/harmony/passphrase.txt".format(HOME)
 BLS_ALL_KEYS_PATH = "{}/harmony/.hmy/allkeys".format(HOME)
 
 # The slot to target
-TARGET_SLOT = 450
+TARGET_SLOT = 800
 
 # Maximum validator pages to parse
 MAX_VALIDATORS_PAGES = 10

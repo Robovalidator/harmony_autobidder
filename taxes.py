@@ -55,7 +55,7 @@ def get_transaction_history(address, page_index=0, year_restrict=None):
         {
             "address": address,
             "pageIndex": page_index,
-            "pageSize": 10000,
+            "pageSize": 1000,
             "fullTx": True,
             "txType": "SENT",
             "order": "ASC"

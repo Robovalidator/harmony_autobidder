@@ -13,6 +13,11 @@ https://staking.harmony.one/validators/mainnet/one1x8fhymx4xsygy4dju9ea9vhs3vqg0
 to improve this software.
 
 ## Setup
+### Install requirements
+```
+$ pip3 install -r requirements.txt
+```
+
 ### Download the hmy client if you haven't already
 ```
 $ cd ~/
@@ -70,7 +75,7 @@ $ tmux new-session -s autobidder
 
 ### Start the autobidding service
 ```
-$ autobid.py
+$ python3 autobid.py
 ...
 384: kaparnos (1019000)
 385: FNHarmonyOS (1000000)
@@ -94,7 +99,7 @@ The bot will poll for validator information every several seconds and output the
 
 ## Script options
 ```
-$ autobid.py --help
+$ python3 autobid.py --help
 usage: autobid.py [-h] [-o] [-l] [-j] [-e]
 
 Autobidding service for harmony validators. python autobid.py

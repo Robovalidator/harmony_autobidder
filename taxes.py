@@ -19,18 +19,18 @@ def write_csv(address, csv_file, start_page, end_page):
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     writer.writeheader()
     for page_index in range(start_page, end_page + 1):
-        rows = get_transaction_history(address, page_index=page_index)
+        rows, transactions = get_transaction_history(address, page_index=page_index)
         print(page_index)
         print(rows)
         writer.writerows(rows)
         page_index += 1
-        if not rows:
+        if not transactions:
             break
     csv_file.close()
     print("Generated bitcoin.tax file {}".format(csv_file.name))
 
 
-@retry(JSONDecodeError, delay=1, tries=100)
+@retry((JSONDecodeError, requests.exceptions.SSLError), delay=5, tries=100)
 def get_transaction_history(address, page_index=0):
     params = [
         {
@@ -67,10 +67,10 @@ def get_transaction_history(address, page_index=0):
         row = dict(Date=date, Action=action, Account=account, Symbol=symbol, Volume=volume, Total=total,
                    Currency=currency, Memo=memo)
         rows.append(row)
-    return rows
+    return rows, transactions
 
 
-@retry(JSONDecodeError, delay=1, tries=100)
+@retry((JSONDecodeError, requests.exceptions.SSLError), delay=5, tries=100)
 def get_transaction_receipt(hash):
     params = [hash]
 

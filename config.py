@@ -33,7 +33,7 @@ BID_GAS_PRICE = 30
 
 CHANGE_KEY_TIMEOUT_SECONDS = 10
 
-REMAINING_BLOCKS_FOR_AUTO_DELEGATE = 1800
+REMAINING_BLOCKS_FOR_AUTO_DELEGATE = 200
 
 # Set this to greater than 0 if you want the bot to change the bid
 # at the last minute before epoch end
@@ -46,3 +46,6 @@ EPOS_UPPER_BOUND = 1.35
 EPOS_LOWER_BOUND = 0.65
 PREVENT_INEFFICIENT_BID = True
 DEFAULT_INTERVAL_SECONDS = 5
+
+# Map of validator address to validator details
+VALIDATOR_DETAILS = {}

@@ -1,10 +1,15 @@
 from subprocess import PIPE, Popen
 from time import sleep
 
-import simplejson
-
 import config
 from config import HMY_PATH
+import requests
+from retry import retry
+import simplejson
+from simplejson.errors import JSONDecodeError
+
+
+JSONRPC_ENDPOINT = "https://rpc.s0.t.hmny.io"
 
 
 class HarmonyClientError(Exception):
@@ -62,3 +67,15 @@ def add_bls_key(bls_key, gas_price=config.BID_GAS_PRICE):
         base_process_args + ["--add-bls-key", bls_key, "--timeout", str(config.CHANGE_KEY_TIMEOUT_SECONDS)],
         retries=0
     )
+
+
+@retry((JSONDecodeError, requests.exceptions.SSLError), delay=0.1, tries=3)
+def get_median_raw_stake_snapshot():
+    payload = {
+        "method": "hmyv2_getMedianRawStakeSnapshot",
+        "params": [],
+        "jsonrpc": "2.0",
+        "id": 1,
+    }
+    response = requests.post(JSONRPC_ENDPOINT, json=payload).json()
+    return response

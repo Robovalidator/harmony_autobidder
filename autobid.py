@@ -56,6 +56,12 @@ def main(main_args):
 
 def run_once(main_args, prev_response_json=None):
     bidding_enabled = not main_args.disable_bidding
+
+    if main_args.load_details and not config.VALIDATOR_DETAILS:
+        validators = validator_logic.get_all_validators()
+        for validator in validators:
+            config.VALIDATOR_DETAILS[validator.address] = validator
+
     response_json = bidding_logic.get_validators_and_bid_if_necessary(bidding_enabled=bidding_enabled)
 
     if bidding_logic.should_show_response_json(prev_response_json, response_json):
@@ -91,6 +97,10 @@ def get_command_line_options():
     )
     parser.add_argument(
         '-d', '--disable_bidding', help="If set then disable bidding, just output information", action='store_true',
+        default=False
+    )
+    parser.add_argument(
+        '-m', '--load_details', help="If set then load validator details on startup.", action='store_true',
         default=False
     )
     return parser.parse_args()

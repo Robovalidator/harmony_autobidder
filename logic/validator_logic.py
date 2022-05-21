@@ -1,8 +1,5 @@
 from __future__ import annotations
 
-import math
-from collections import defaultdict
-from time import sleep
 from typing import Tuple
 
 import client
@@ -31,13 +28,56 @@ def extract_validator(info_json):
     return Validator(address, name, bid, bls_keys, slots, uptime)
 
 
+def extract_validator_from_snapshot(info_json):
+    address = info_json['validator']
+    validator_details = config.VALIDATOR_DETAILS.get(address)
+    if validator_details:
+        uptime = validator_details.uptime
+        name = validator_details.name
+    else:
+        uptime = None
+        name = address
+    bls_keys = info_json['keys-at-auction']
+    slots = len(bls_keys)
+    bid = int(info_json['stake-per-key'] * OneUnit.Wei)
+    return Validator(address, name, bid, bls_keys, slots, uptime)
+
+
 def get_my_validator():
     response = client.get_validator_info(config.VALIDATOR_ADDR)
     info_json = response['result']
     return extract_validator(info_json)
 
 
+def get_all_validators_from_snapshot():
+    response = client.get_median_raw_stake_snapshot()
+    snapshot = response['result']
+
+    validators = []
+    # my validator may be more up to date
+    my_validator = get_my_validator()
+    info_jsons = snapshot['epos-slot-candidates']
+    for info_json in info_jsons:
+        validator = extract_validator_from_snapshot(info_json)
+        validators.append(validator)
+
+    if my_validator:
+        validators = [my_validator if val.address == my_validator.address else val for val in validators]
+    validators.sort(key=lambda v: v.bid, reverse=True)
+
+    # Prune validators outside of range
+    num_slots = 0
+    pruned_validators = []
+    for validator in validators:
+        pruned_validators.append(validator)
+        num_slots += len(validator.bls_keys)
+        if num_slots >= config.NUM_SLOTS_TO_SHOW:
+            break
+    return pruned_validators
+
+
 def get_all_validators():
+    """Slower than get_all_validators_from_snapshot but can be useful to load address to names"""
     i = 0
     validators = []
     existing_addresses = set()
@@ -63,7 +103,7 @@ def get_all_validators():
 
     if my_validator:
         validators = [my_validator if val.address == my_validator.address else val for val in validators]
-    validators.sort(key = lambda v: v.bid, reverse=True)
+    validators.sort(key=lambda v: v.bid, reverse=True)
 
     # Prune validators outside of range
     num_slots = 0

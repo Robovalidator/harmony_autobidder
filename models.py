@@ -34,7 +34,9 @@ class Validator(object):
 
     @property
     def uptime_as_pct(self):
-        return u"{}%".format(round(self.uptime * 100.0, 5))
+        if self.uptime is None:
+            return "unknown"
+        return f"{round(self.uptime * 100.0, 5)}%"
 
 
 class SlotRange(object):

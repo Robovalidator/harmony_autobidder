@@ -9,6 +9,7 @@ import config
 VALIDATOR_LENGTHS = []
 MAX_VALIDATOR_LENGTHS = 20
 
+
 def get_validators_and_bid_if_necessary(bidding_enabled=False):
     debug_json = {}
     my_validator = validator_logic.get_my_validator()
@@ -20,7 +21,7 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
             my_validator = validator_logic.get_my_validator()
             debug_json['keys_not_in_config_removed'] = removed_keys
 
-    validators = validator_logic.get_all_validators()
+    validators = validator_logic.get_all_validators_from_snapshot()
     VALIDATOR_LENGTHS.append(len(validators))
     if len(VALIDATOR_LENGTHS) > MAX_VALIDATOR_LENGTHS:
         VALIDATOR_LENGTHS.pop(0)

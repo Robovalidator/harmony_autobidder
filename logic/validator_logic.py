@@ -1,4 +1,5 @@
 from __future__ import annotations
+from collections import defaultdict
 
 from typing import Tuple
 
@@ -38,9 +39,17 @@ def extract_validator_from_snapshot(info_json):
         uptime = None
         name = address
     bls_keys = info_json['keys-at-auction']
-    slots = len(bls_keys)
+    bls_keys_per_shard = defaultdict(int)
+    allowed_keys: any
+    for bls_key in bls_keys:
+        shard = int(bls_key, 16) % 4
+        if bls_keys_per_shard[shard] < 13:
+            bls_keys_per_shard[shard] += 1
+            allowed_keys.add(bls_key)
+        
+    slots = len(allowed_keys)
     bid = int(info_json['stake-per-key'] * OneUnit.Wei)
-    return Validator(address, name, bid, bls_keys, slots, uptime)
+    return Validator(address, name, bid, allowed_keys, slots, uptime)
 
 
 def get_my_validator():

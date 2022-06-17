@@ -40,12 +40,12 @@ def extract_validator_from_snapshot(info_json):
         name = address
     bls_keys = info_json['keys-at-auction']
     bls_keys_per_shard = defaultdict(int)
-    allowed_keys: any
+    allowed_keys = list()
     for bls_key in bls_keys:
         shard = int(bls_key, 16) % 4
         if bls_keys_per_shard[shard] < 13:
             bls_keys_per_shard[shard] += 1
-            allowed_keys.add(bls_key)
+            allowed_keys.append(bls_key)
         
     slots = len(allowed_keys)
     bid = int(info_json['stake-per-key'] * OneUnit.Wei)

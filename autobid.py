@@ -1,15 +1,14 @@
 #!/usr/bin/python3
-
 from __future__ import absolute_import, print_function
-
 import argparse
 import pprint
 import sys
 import traceback
 from time import sleep
-
 import config
 from logic import bidding_logic, epoch_logic, output_logic, validator_logic
+#vstatsAlertInit
+from vstats.alerts import *
 
 
 def main(main_args):
@@ -29,6 +28,11 @@ def main(main_args):
             if main_args.raise_errors:
                 response_json = run_once(main_args, prev_response_json=prev_response_json)
             else:
+                # VSTATS - CODE START
+                # Autobidder Start Message - Confirms Target Slots
+                if(i == 0):
+                    vstats_autobidder_start()
+                # VSTATS - CODE END
                 try:
                     response_json = run_once(main_args, prev_response_json=prev_response_json)
                 except Exception:

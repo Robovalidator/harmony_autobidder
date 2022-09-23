@@ -5,6 +5,7 @@ import client
 from logic import epoch_logic, validator_logic, shard_logic
 
 import config
+from vstats.alerts import *
 
 VALIDATOR_LENGTHS = []
 MAX_VALIDATOR_LENGTHS = 20
@@ -49,9 +50,16 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
     debug_json['min_efficient_bid'] = min_efficient_bid
     debug_json['shard_staking_amounts'] = shard_staking_amounts
 
-    if bidding_enabled and num_blocks_left <= config.BOTTOM_FEED_ENABLED_BLOCKS_LEFT:
-        target_slot = config.NUM_SLOTS - config.BOTTOM_FEED_SLOT_DISTANCE
-
+    # Check if Final Target Slot is enabled and set target_slot and custom output message
+    if bidding_enabled and config.TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT > 0 and num_blocks_left <= config.TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT:
+        target_slot = config.TARGET_SLOT_FINAL
+        response_json["TARGET_SLOT_FINAL_ACTIVE"] = u"Target Slot Final: {}, ACTIVE\n" . format(config.TARGET_SLOT_FINAL)
+    elif bidding_enabled and config.TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT > 0 and num_blocks_left > config.TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT :
+        response_json["TARGET_SLOT_FINAL_ACTIVE"] = u"Target Slot Final: " + format(config.TARGET_SLOT_FINAL) + ", {} blocks until Active\n" . format((num_blocks_left - config.TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT))
+    else:
+        response_json["TARGET_SLOT_FINAL_ACTIVE"] = ""
+       
+       
     if not bidding_enabled:
         response_json['interval_seconds'] = 0.5
 
@@ -116,6 +124,13 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
                     changed_keys = True
                 else:
                     response_json['interval_seconds'] = 1
+                
+                # VSTATS - CODE START
+                # if(my_slot_range.end > NUM_SLOTS):
+                # if(my_slot_range.end > target_slot): 
+                vstats_slot_alerts(target_slot,my_slot_range,key_to_remove,num_blocks_left)
+                # VSTATS - CODE END
+                
                 validators = validator_logic.get_all_validators()
                 my_slot_range = validator_logic.get_my_slot_range_for_validators(validators, my_validator)
                 response_json["new_slots"] = str(my_slot_range)

@@ -27,11 +27,9 @@ def main(main_args):
             if main_args.raise_errors:
                 response_json = run_once(main_args, prev_response_json=prev_response_json)
             else:
-                # VSTATS - CODE START
-                # Autobidder Start Message - Confirms Target Slots
                 if(i == 0):
                     vstats_autobidder_start()
-                # VSTATS - CODE END
+
                 try:
                     response_json = run_once(main_args, prev_response_json=prev_response_json)
                 except Exception:

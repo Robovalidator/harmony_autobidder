@@ -53,9 +53,9 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
     # Check if Final Target Slot is enabled and set target_slot and custom output message
     if bidding_enabled and config.TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT > 0 and num_blocks_left <= config.TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT:
         target_slot = config.TARGET_SLOT_FINAL
-        response_json["TARGET_SLOT_FINAL_ACTIVE"] = u"Target Slot Final: {}, ACTIVE\n" . format(config.TARGET_SLOT_FINAL)
+        response_json["TARGET_SLOT_FINAL_ACTIVE"] = f"Target Slot Final: {config.TARGET_SLOT_FINAL}, ACTIVE\n"
     elif bidding_enabled and config.TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT > 0 and num_blocks_left > config.TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT :
-        response_json["TARGET_SLOT_FINAL_ACTIVE"] = u"Target Slot Final: " + format(config.TARGET_SLOT_FINAL) + ", {} blocks until Active\n" . format((num_blocks_left - config.TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT))
+        response_json["TARGET_SLOT_FINAL_ACTIVE"] = f"Target Slot Final: {config.TARGET_SLOT_FINAL}, {num_blocks_left - config.TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT} blocks until Active\n"
     else:
         response_json["TARGET_SLOT_FINAL_ACTIVE"] = ""
        

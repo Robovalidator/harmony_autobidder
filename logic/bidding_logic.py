@@ -5,7 +5,7 @@ import client
 from logic import epoch_logic, validator_logic, shard_logic
 
 import config
-from vstats.alerts import *
+from vstats.alerts import vstats_slot_alerts
 
 VALIDATOR_LENGTHS = []
 MAX_VALIDATOR_LENGTHS = 20

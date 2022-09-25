@@ -7,7 +7,6 @@ import traceback
 from time import sleep
 import config
 from logic import bidding_logic, epoch_logic, output_logic, validator_logic
-#vstatsAlertInit
 from vstats.alerts import *
 
 

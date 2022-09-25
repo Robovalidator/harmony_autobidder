@@ -125,11 +125,7 @@ def get_validators_and_bid_if_necessary(bidding_enabled=False):
                 else:
                     response_json['interval_seconds'] = 1
                 
-                # VSTATS - CODE START
-                # if(my_slot_range.end > NUM_SLOTS):
-                # if(my_slot_range.end > target_slot): 
                 vstats_slot_alerts(target_slot,my_slot_range,key_to_remove,num_blocks_left)
-                # VSTATS - CODE END
                 
                 validators = validator_logic.get_all_validators()
                 my_slot_range = validator_logic.get_my_slot_range_for_validators(validators, my_validator)

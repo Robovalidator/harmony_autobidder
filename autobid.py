@@ -7,7 +7,7 @@ import traceback
 from time import sleep
 import config
 from logic import bidding_logic, epoch_logic, output_logic, validator_logic
-from vstats.alerts import *
+from vstats.alerts import vstats_autobidder_start
 
 
 def main(main_args):

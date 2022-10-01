@@ -68,6 +68,10 @@ you can run the following command so git will not track changes to the file.
 git update-index --skip-worktree bls_keys.py
 ```
 
+### vStatsBot Integration By Fortune Validator
+Add your vStatsBot token acquired by running /token command on the bot to the autobidder config.py file. 
+Set the two variables to True or False ( VSTATS_ALERT_REMOVE_KEY, VSTATS_ALERT_OUT_OF_ELECTION)
+
 ### Create a tmux session
 ```
 $ tmux new-session -s autobidder

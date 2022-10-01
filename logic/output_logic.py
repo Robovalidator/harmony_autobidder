@@ -50,11 +50,12 @@ def get_response_as_text(response_json):
 
     text += u"".join([
         u"Name: {}\n".format(validator.name),
-        u"Target slot: {}\n".format(config.TARGET_SLOT),
-        u"Current slots: {}\n".format(response_json["slots"]),
+        u"Target Slot: {}\n".format(config.TARGET_SLOT),
+        format(response_json['TARGET_SLOT_FINAL_ACTIVE']),
+        u"Current Slots: {}\n".format(response_json["slots"]),
         u"Available Keys: {}\n".format(len(config.BLS_KEYS)),
-        u"Current epoch uptime: {}\n".format(validator.uptime_as_pct),
-        u"Current bid: {}\n".format(validator.bid),
+        u"Current Epoch Uptime: {}\n".format(validator.uptime_as_pct),
+        u"Current Bid: {}\n".format(validator.bid),
         # u"BLS keys: {}\n".format(u", ".join(validator.bls_keys)),
         u"If we lower the bid by adding key the slots will be: {}\n".format(
             response_json.get("slots_after_lowering_bid", "N/A")),

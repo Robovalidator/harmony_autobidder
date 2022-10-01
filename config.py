@@ -7,7 +7,12 @@ NODE_API_URL = "https://api.s0.t.hmny.io"
 USE_REMOTE_NODE = True
 
 # Put your own validator address below
-VALIDATOR_ADDR = "one1x8fhymx4xsygy4dju9ea9vhs3vqg0u3ht0nz74"
+VALIDATOR_ADDR = ""
+
+# vStatsToken: run /token on vstatsbot to generate
+VSTATS_TOKEN=""
+VSTATS_ALERT_REMOVE_KEY = False # Set to false if you do not want remove key alerts
+VSTATS_ALERT_OUT_OF_ELECTION = True # Set to false if you do not want out of election alerts
 
 # Path to harmony CLI
 HMY_PATH = "{}/harmony/hmy".format(HOME)
@@ -23,13 +28,14 @@ BLS_ALL_KEYS_PATH = "{}/harmony/.hmy/allkeys".format(HOME)
 # The slot to target
 TARGET_SLOT = 800
 
+
 # Maximum validator pages to parse
 MAX_VALIDATORS_PAGES = 10
 
 # Path to base web page html contents
 BASE_HTML_PATH = "{}/harmony/robovalidator.html".format(HOME)
 
-BID_GAS_PRICE = 30
+BID_GAS_PRICE = 105
 
 CHANGE_KEY_TIMEOUT_SECONDS = 10
 
@@ -37,8 +43,10 @@ REMAINING_BLOCKS_FOR_AUTO_DELEGATE = 200
 
 # Set this to greater than 0 if you want the bot to change the bid
 # at the last minute before epoch end
-BOTTOM_FEED_ENABLED_BLOCKS_LEFT = -100
-BOTTOM_FEED_SLOT_DISTANCE = 25
+# 30 blocks per minute e.g 30 mins = 900
+TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT = -900 
+TARGET_SLOT_FINAL = 888
+
 NUM_SLOTS = 900
 NUM_SLOTS_TO_SHOW = 910
 

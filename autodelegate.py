@@ -18,6 +18,8 @@ def usage():
 
 def main(main_args):
     remaining_blocks = epoch_logic.get_remaining_blocks_for_current_epoch()
+    if remaining_blocks <= 0:
+        return
     now_timestamp = time.time()
     timestamp_file_path = f"{os.environ['HOME']}/harmony/.autodelegate_ts"
     script_path = f"{os.environ['HOME']}/harmony/scripts/autodelegate"
@@ -33,7 +35,7 @@ def main(main_args):
 
     seconds_since_autodelegate = now_timestamp - float(timestamp_since_autodelegate)
     print(f"Remaining blocks: {remaining_blocks}, seconds since previous autodelegate: {seconds_since_autodelegate}")
-    if remaining_blocks < REMAINING_BLOCKS_FOR_AUTO_DELEGATE and seconds_since_autodelegate >= 60 * 60 * 12:
+    if remaining_blocks < REMAINING_BLOCKS_FOR_AUTO_DELEGATE and seconds_since_autodelegate >= 60 * 60 * 3:
         print(f"Autodelegating: {script_path}")
         process = Popen([script_path], stdout=PIPE)
         outs, errs = process.communicate()

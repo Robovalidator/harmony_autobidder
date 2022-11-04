@@ -29,18 +29,18 @@ MAX_VALIDATORS_PAGES = 10
 # Path to base web page html contents
 BASE_HTML_PATH = "{}/harmony/robovalidator.html".format(HOME)
 
-BID_GAS_PRICE = 30
+BID_GAS_PRICE = 100
 
 CHANGE_KEY_TIMEOUT_SECONDS = 10
 
-REMAINING_BLOCKS_FOR_AUTO_DELEGATE = 200
+REMAINING_BLOCKS_FOR_AUTO_DELEGATE = 900
 
 # Set this to greater than 0 if you want the bot to change the bid
 # at the last minute before epoch end
 BOTTOM_FEED_ENABLED_BLOCKS_LEFT = -100
 BOTTOM_FEED_SLOT_DISTANCE = 25
 NUM_SLOTS = 900
-NUM_SLOTS_TO_SHOW = 910
+NUM_SLOTS_TO_SHOW = 1000
 
 EPOS_UPPER_BOUND = 1.35
 EPOS_LOWER_BOUND = 0.65

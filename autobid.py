@@ -25,7 +25,7 @@ def main(main_args):
     if main_args.once:
         run_once(main_args)
     else:
-        while 1:
+        while True:
             if main_args.raise_errors:
                 response_json = run_once(main_args, prev_response_json=prev_response_json)
             else:

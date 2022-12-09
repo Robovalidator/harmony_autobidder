@@ -8,10 +8,6 @@ from retry import retry
 import simplejson
 from simplejson.errors import JSONDecodeError
 
-
-JSONRPC_ENDPOINT = "https://api.s0.t.hmny.io"
-
-
 class HarmonyClientError(Exception):
     pass
 
@@ -71,11 +67,4 @@ def add_bls_key(bls_key, gas_price=config.BID_GAS_PRICE):
 
 @retry((JSONDecodeError, requests.exceptions.SSLError), delay=0.1, tries=3)
 def get_median_raw_stake_snapshot():
-    payload = {
-        "method": "hmyv2_getMedianRawStakeSnapshot",
-        "params": [],
-        "jsonrpc": "2.0",
-        "id": 1,
-    }
-    response = requests.post(JSONRPC_ENDPOINT, json=payload).json()
-    return response
+    return get_json_for_command([HMY_PATH, "blockchain", "median-stake"], retries=25)

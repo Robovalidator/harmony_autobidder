@@ -43,7 +43,7 @@ def extract_validator_from_snapshot(info_json):
     allowed_keys = list()
     for bls_key in bls_keys:
         shard = int(bls_key, 16) % 4
-        if bls_keys_per_shard[shard] < 13:
+        if bls_keys_per_shard[shard] < config.MAX_KEYS_PER_SHARD:
             bls_keys_per_shard[shard] += 1
             allowed_keys.append(bls_key)
         

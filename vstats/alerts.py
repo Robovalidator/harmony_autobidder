@@ -4,7 +4,7 @@ import requests
 import socket
 from config import VSTATS_TOKEN,VALIDATOR_ADDR,TARGET_SLOT,TARGET_SLOT_FINAL,TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT,NUM_SLOTS,VSTATS_ALERT_REMOVE_KEY,VSTATS_ALERT_OUT_OF_ELECTION
 
-VSTATS_API = "https://vstats.one/api/autobidder"
+VSTATS_API = "https://h.vstats.one/api/autobidder"
 
 class Alerts:
     def __init__(self, VSTATS_API: str, connect_to_api: object) -> None:

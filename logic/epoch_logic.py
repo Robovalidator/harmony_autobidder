@@ -41,11 +41,12 @@ def get_interval_seconds():
 
     if remaining_seconds < TimeUnit.Minute * 2:
         # return 2
-        return 10
+        return 5
+#         return 10
 
     if remaining_seconds < TimeUnit.Minute * 5:
         # return 10
-        return 20
+        return 15
 
     if remaining_seconds < TimeUnit.Minute * 10:
         # return 30

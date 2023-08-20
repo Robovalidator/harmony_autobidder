@@ -97,7 +97,7 @@ def connect_to_api(
 ) -> dict:
     headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
     try:
-        r = requests.get(api + endpoint, headers=headers, json=j, verify=True)
+        r = requests.post(api + endpoint, headers=headers, json=j, verify=True)
     except json.decoder.JSONDecodeError as e:
         data = r.text
         

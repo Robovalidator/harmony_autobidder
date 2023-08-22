@@ -13,7 +13,6 @@ class Alerts:
 
     def send_to_vstats_start(self) -> None:
         j = {
-            "api_token": VSTATS_TOKEN,
             "type": "start",
             "hostname":socket.gethostname(),
             "address": VALIDATOR_ADDR,
@@ -25,7 +24,6 @@ class Alerts:
     
     def send_to_vstats_generic(self,message:str) -> None:
         j = {
-            "api_token": VSTATS_TOKEN,
             "type": "generic",
             "address": VALIDATOR_ADDR,
             "hostname":socket.gethostname(),
@@ -35,7 +33,6 @@ class Alerts:
     
     def send_to_vstats_key_add(self,message:str) -> None:
         j = {
-            "api_token": VSTATS_TOKEN,
             "type": "key_add",
             "address": VALIDATOR_ADDR,
             "hostname":socket.gethostname(),
@@ -45,7 +42,6 @@ class Alerts:
         
     def send_to_vstats_key_remove(self,message:str) -> None:
         j = {
-            "api_token": VSTATS_TOKEN,
             "type": "key_remove",
             "address": VALIDATOR_ADDR,
             "hostname":socket.gethostname(),
@@ -55,7 +51,6 @@ class Alerts:
 
     def send_to_vstats_out_of_election(self,target_slot:int,my_slot_range_end:int,key_to_remove:str,num_blocks_left:int) -> None:
         j = {
-            "api_token": VSTATS_TOKEN,
             "type": "out_of_election",
             "address": VALIDATOR_ADDR,
             "hostname":socket.gethostname(),
@@ -68,7 +63,6 @@ class Alerts:
     
     def send_to_vstats_over_target(self,target_slot:int,my_slot_range_end:int,key_to_remove:str,num_blocks_left:int) -> None:
         j = {
-            "api_token": VSTATS_TOKEN,
             "type": "over_target",
             "address": VALIDATOR_ADDR,
             "hostname":socket.gethostname(),
@@ -81,7 +75,6 @@ class Alerts:
     
     def generic_error(self,e) -> None:
         j = {
-            "api_token": VSTATS_TOKEN,
             "error": 'true',
             "hostname":socket.gethostname(),
         }
@@ -89,15 +82,14 @@ class Alerts:
 
 
 def connect_to_api(
-    token: str,
     api: str,
     endpoint: str,
     call: requests = requests.get,
     j: dict = {},
 ) -> dict:
-    headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+    headers = {"Authorization": f"Bearer {VSTATS_TOKEN}", "Content-Type": "application/json"}
     try:
-        r = requests.get(api + endpoint, headers=headers, json=j, verify=True)
+        r = requests.post(api + endpoint, headers=headers, json=j, verify=True)
     except json.decoder.JSONDecodeError as e:
         data = r.text
         

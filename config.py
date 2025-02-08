@@ -10,45 +10,44 @@ USE_REMOTE_NODE = True
 VALIDATOR_ADDR = ""
 
 # vStatsToken: run /token on vstatsbot to generate
-VSTATS_TOKEN=""
-VSTATS_ALERT_REMOVE_KEY = False # Set to false if you do not want remove key alerts
-VSTATS_ALERT_OUT_OF_ELECTION = True # Set to false if you do not want out of election alerts
+VSTATS_TOKEN = ""
+VSTATS_ALERT_REMOVE_KEY = False  # Set to false if you do not want remove key alerts
+VSTATS_ALERT_OUT_OF_ELECTION = True  # Set to false if you do not want out of election alerts
 
 # Path to harmony CLI
-HMY_PATH = "{}/harmony/hmy".format(HOME)
+HMY_PATH = f"{HOME}/harmony/hmy"
 
 # Path to passphrase file
-PASSPHRASE_PATH = "{}/harmony/passphrase.txt".format(HOME)
+PASSPHRASE_PATH = f"{HOME}/harmony/passphrase.txt"
 
 # Place all your bls .key and .pass files across ALL nodes in the directory below
 # This is usually a superset of the keys in the .hmy/blskeys path which contains the keys
 # for running a specific node
-BLS_ALL_KEYS_PATH = "{}/harmony/.hmy/allkeys".format(HOME)
+BLS_ALL_KEYS_PATH = f"{HOME}/harmony/.hmy/allkeys"
 
 # The slot to target
-TARGET_SLOT = 800
-
+TARGET_SLOT = 300
 
 # Maximum validator pages to parse
 MAX_VALIDATORS_PAGES = 10
 
 # Path to base web page html contents
-BASE_HTML_PATH = "{}/harmony/robovalidator.html".format(HOME)
+BASE_HTML_PATH = f"{HOME}/harmony/robovalidator.html"
 
-BID_GAS_PRICE = 105
+BID_GAS_PRICE = 100
 
 CHANGE_KEY_TIMEOUT_SECONDS = 10
 
-REMAINING_BLOCKS_FOR_AUTO_DELEGATE = 200
+REMAINING_BLOCKS_FOR_AUTO_DELEGATE = 900
 
 # Set this to greater than 0 if you want the bot to change the bid
 # at the last minute before epoch end
 # 30 blocks per minute e.g 30 mins = 900
-TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT = -900 
+TARGET_SLOT_FINAL_ENABLED_BLOCKS_LEFT = 900
 TARGET_SLOT_FINAL = 888
 
-NUM_SLOTS = 900
-NUM_SLOTS_TO_SHOW = 910
+NUM_SLOTS = 360
+NUM_SLOTS_TO_SHOW = 500
 
 EPOS_UPPER_BOUND = 1.35
 EPOS_LOWER_BOUND = 0.65

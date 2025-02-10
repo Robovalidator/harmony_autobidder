@@ -1,22 +1,24 @@
 from subprocess import PIPE, Popen
 from time import sleep
+from typing import Any, Dict, List, Optional, Union
+
+import requests
+import simplejson
+from retry import retry
+from simplejson.errors import JSONDecodeError
 
 import config
 from config import HMY_PATH
-import requests
-from retry import retry
-import simplejson
-from simplejson.errors import JSONDecodeError
 
 
-JSONRPC_ENDPOINT = "https://api.s0.t.hmny.io"
+JSONRPC_ENDPOINT: str = "https://rpc.s0.t.hmny.io"
 
 
 class HarmonyClientError(Exception):
     pass
 
 
-def get_json_for_command(process_args, retries=3, retry_wait=0.1):
+def get_json_for_command(process_args: List[str], retries: int = 3, retry_wait: float = 0.1) -> Optional[Dict[str, Any]]:
     original_process_args = process_args[:]
     if config.USE_REMOTE_NODE:
         process_args.extend(["--node", config.NODE_API_URL])
@@ -33,19 +35,19 @@ def get_json_for_command(process_args, retries=3, retry_wait=0.1):
     return None
 
 
-def get_validator_info(address):
+def get_validator_info(address: str) -> Optional[Dict[str, Any]]:
     return get_json_for_command([HMY_PATH, "blockchain", "validator", "information", address], retries=25)
 
 
-def get_all_validators_info_page(page):
+def get_all_validators_info_page(page: int) -> Optional[Dict[str, Any]]:
     return get_json_for_command([HMY_PATH, "blockchain", "validator", "all-information", str(page)], retries=25)
 
 
-def get_latest_header():
+def get_latest_header() -> Optional[Dict[str, Any]]:
     return get_json_for_command([HMY_PATH, "blockchain", "latest-header"])
 
 
-def _get_base_edit_validator_process_args(gas_price=config.BID_GAS_PRICE):
+def _get_base_edit_validator_process_args(gas_price: Union[int, float] = config.BID_GAS_PRICE) -> List[str]:
     return [HMY_PATH, "staking", "edit-validator",
             "--validator-addr", config.VALIDATOR_ADDR,
             "--passphrase-file", config.PASSPHRASE_PATH,
@@ -53,7 +55,7 @@ def _get_base_edit_validator_process_args(gas_price=config.BID_GAS_PRICE):
             "--gas-price", str(gas_price)]
 
 
-def remove_bls_key(bls_key, gas_price=config.BID_GAS_PRICE):
+def remove_bls_key(bls_key: str, gas_price: Union[int, float] = config.BID_GAS_PRICE) -> Optional[Dict[str, Any]]:
     base_process_args = _get_base_edit_validator_process_args(gas_price=gas_price)
     return get_json_for_command(
         base_process_args + ["--remove-bls-key", bls_key, "--timeout", str(config.CHANGE_KEY_TIMEOUT_SECONDS)],
@@ -61,7 +63,7 @@ def remove_bls_key(bls_key, gas_price=config.BID_GAS_PRICE):
     )
 
 
-def add_bls_key(bls_key, gas_price=config.BID_GAS_PRICE):
+def add_bls_key(bls_key: str, gas_price: Union[int, float] = config.BID_GAS_PRICE) -> Optional[Dict[str, Any]]:
     base_process_args = _get_base_edit_validator_process_args(gas_price=gas_price)
     return get_json_for_command(
         base_process_args + ["--add-bls-key", bls_key, "--timeout", str(config.CHANGE_KEY_TIMEOUT_SECONDS)],
@@ -70,7 +72,7 @@ def add_bls_key(bls_key, gas_price=config.BID_GAS_PRICE):
 
 
 @retry((JSONDecodeError, requests.exceptions.SSLError), delay=0.1, tries=3)
-def get_median_raw_stake_snapshot():
+def get_median_raw_stake_snapshot() -> Dict[str, Any]:
     payload = {
         "method": "hmyv2_getMedianRawStakeSnapshot",
         "params": [],

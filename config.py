@@ -25,6 +25,9 @@ PASSPHRASE_PATH = "{}/harmony/passphrase.txt".format(HOME)
 # for running a specific node
 BLS_ALL_KEYS_PATH = "{}/harmony/.hmy/allkeys".format(HOME)
 
+# The maximum number of BLS keys allowed per shard
+MAX_KEYS_PER_SHARD = 13
+
 # The slot to target
 TARGET_SLOT = 800
 

@@ -12,9 +12,21 @@ If you've benefited from using this program please consider donating or delegati
 https://staking.harmony.one/validators/mainnet/one1x8fhymx4xsygy4dju9ea9vhs3vqg0u3ht0nz74 so we can continue
 to improve this software.
 
+## Download
+### Install git
+```
+$ sudo apt install git
+```
+
+### Download harmony_autobidder repo
+```
+$ git clone https://github.com/Robovalidator/harmony_autobidder.git
+```
+
 ## Setup
 ### Install requirements
 ```
+$ cd harmony_autobidder
 $ pip3 install -r requirements.txt
 ```
 
